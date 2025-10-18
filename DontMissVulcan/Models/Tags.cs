@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DontMissVulcan.Models
 {
-	public class Tags
+	internal class Tags
 	{
 		public required ImmutableList<string> Rarity { get; init; }
 		public required ImmutableList<string> Job { get; init; }
