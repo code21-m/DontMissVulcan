@@ -9,11 +9,11 @@ namespace DontMissVulcan.Models
 	internal class OperatorFinder(GameData gameData)
 	{
 		private readonly GameData gameData = gameData;
-		private const int maximumSelectionsNumber = 3;
 
 		public IEnumerable<(IEnumerable<Tag> tags, IEnumerable<Operator> operators)> EnumerateOperatorsForTagsCombinations(IEnumerable<Tag> appearedTags)
 		{
-			for(var r = 1; r <= maximumSelectionsNumber; r++)
+			const int maximumSelectionsNumber = 3;
+			for (var r = 1; r <= maximumSelectionsNumber; r++)
 			{
 				foreach(var selectedTags in appearedTags.EnumerateCombinations(r))
 				{
