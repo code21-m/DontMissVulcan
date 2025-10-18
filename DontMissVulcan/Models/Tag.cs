@@ -90,7 +90,6 @@ namespace DontMissVulcan.Models
 			Tag.Survival,
 			Tag.Starter,
 			Tag.Robot
-,
 		];
 	}
 }
