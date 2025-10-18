@@ -10,60 +10,51 @@ namespace DontMissVulcan.Models
 	{
 		private readonly GameData gameData = gameData;
 
-		public List<Operator> SearchEmployableOperatorsFromTags(List<string> tags)
+		public IEnumerable<Operator> SearchEmployableOperatorsFromTags(IEnumerable<Tag> tags)
 		{
 			var employableOperators = gameData.Operators.AsEnumerable();
-			if (!tags.Contains("上級エリート"))
+			if (!tags.Contains(Tag.SeniorOperator))
 			{
 				employableOperators = employableOperators.Where(o => o.Rarity <= 5);
 			}
 			foreach (var tag in tags)
 			{
-				if (gameData.Tags.Rarity.Contains(tag))
+				if (TagCategory.Qualification.Contains(tag))
 				{
-					employableOperators = employableOperators.Where(o => o.Rarity == RarityTagToRarity(tag));
+					employableOperators = employableOperators.Where(o => o.Rarity == QualificationTagToRarity(tag));
 				}
-				else if (gameData.Tags.Job.Contains(tag))
+				else if (TagCategory.Class.Contains(tag))
 				{
-					employableOperators = employableOperators.Where(o => o.Job == JobTagToJob(tag));
+					employableOperators = employableOperators.Where(o => o.Class == tag);
 				}
-				else if (gameData.Tags.Position.Contains(tag))
+				else if (TagCategory.Position.Contains(tag))
 				{
 					employableOperators = employableOperators.Where(o => o.Position == tag);
 				}
-				else if (gameData.Tags.Other.Contains(tag))
+				else if (TagCategory.Specialization.Contains(tag))
 				{
-					employableOperators = employableOperators.Where(o => o.Tags.Contains(tag));
+					employableOperators = employableOperators.Where(o => o.Specializations.Contains(tag));
 				}
 				else
 				{
 					throw new ArgumentException($"タグ '{tag}' は有効なタグではありません。", nameof(tags));
 				}
 			}
-			return [.. employableOperators];
+			return employableOperators;
 		}
 
-		private int RarityTagToRarity(string rarityTag)
+		private static int QualificationTagToRarity(Tag qualificationTag)
 		{
-			if (!gameData.Tags.Rarity.Contains(rarityTag))
+			if (!TagCategory.Qualification.Contains(qualificationTag))
 			{
-				throw new ArgumentException($"rarityTag '{rarityTag}' は有効なレア度タグではありません。", nameof(rarityTag));
+				throw new ArgumentException($"rarityTag '{qualificationTag}' は有効なレア度タグではありません。", nameof(qualificationTag));
 			}
-			return rarityTag switch
+			return qualificationTag switch
 			{
-				"上級エリート" => 6,
-				"エリート" => 5,
+				Tag.SeniorOperator => 6,
+				Tag.TopOperator => 5,
 				_ => 0,
 			};
-		}
-
-		private string JobTagToJob(string jobTag)
-		{
-			if (!gameData.Tags.Job.Contains(jobTag))
-			{
-				throw new ArgumentException($"jobTag '{jobTag}' は有効なジョブタグではありません。", nameof(jobTag));
-			}
-			return jobTag[..2];
 		}
 	}
 }

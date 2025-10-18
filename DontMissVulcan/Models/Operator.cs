@@ -11,8 +11,8 @@ namespace DontMissVulcan.Models
 	{
 		public required string Name { get; init; }
 		public required int Rarity { get; init; }
-		public required string Job { get; init; }
-		public required string Position { get; init; }
-		public required ImmutableList<string> Tags { get; init; }
+		public required Tag Class { get; init; }
+		public required Tag Position { get; init; }
+		public required ImmutableList<Tag> Specializations { get; init; }
 	}
 }

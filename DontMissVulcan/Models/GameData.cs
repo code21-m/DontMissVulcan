@@ -5,74 +5,59 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DontMissVulcan.Models
 {
 	internal class GameData
 	{
-		public Tags Tags { get; }
+		public ImmutableDictionary<Tag, string> TagToString { get; }
+		public ImmutableDictionary<string, Tag> StringToTag { get; }
 		public ImmutableList<Operator> Operators { get; }
 
-		public GameData(string tagsJsonPath, string operatorsJsonPath)
+		public GameData(string tagLanguageJsonPath, string operatorsJsonPath)
 		{
-			var tagsJson = File.ReadAllText(tagsJsonPath);
-			var tagsDto = JsonSerializer.Deserialize<TagsDto>(tagsJson) ?? new TagsDto();
-
-			Tags = new Tags
+			var tagLanguageJson = File.ReadAllText(tagLanguageJsonPath);
+			var tagLanguageDto = JsonSerializer.Deserialize<Dictionary<string, string>>(tagLanguageJson) ?? [];
+			var tagToStringBuilder = ImmutableDictionary.CreateBuilder<Tag, string>();
+			var stringToTagBuilder = ImmutableDictionary.CreateBuilder<string, Tag>();
+			foreach (var kv in tagLanguageDto)
 			{
-				Rarity = tagsDto.Rarity?.ToImmutableList() ?? [],
-				Job = tagsDto.Job?.ToImmutableList() ?? [],
-				Position = tagsDto.Position?.ToImmutableList() ?? [],
-				Other = tagsDto.Other?.ToImmutableList() ?? []
-			};
+				var key = kv.Key ?? String.Empty;
+				var value = kv.Value ?? String.Empty;
+				if (Enum.TryParse<Tag>(key, out var tag))
+				{
+					tagToStringBuilder.Add(tag, value);
+					stringToTagBuilder.Add(value, tag);
+				}
+			}
+			TagToString = tagToStringBuilder.ToImmutable();
+			StringToTag = stringToTagBuilder.ToImmutable();
 
 			var operatorsJson = File.ReadAllText(operatorsJsonPath);
 			var operatorsDto = JsonSerializer.Deserialize<OperatorsDto>(operatorsJson) ?? new OperatorsDto();
-
-			Operators = operatorsDto.Operators?
-				.Select(o => new Operator
-				{
-					Name = o.Name ?? string.Empty,
-					Rarity = o.Rarity,
-					Job = o.Job ?? string.Empty,
-					Position = o.Position ?? string.Empty,
-					Tags = o.Tags?.ToImmutableList() ?? []
-				})
-				.ToImmutableList() ?? [];
-		}
-
-		private class TagsDto
-		{
-			[JsonPropertyName("rarity")]
-			public List<string>? Rarity { get; set; }
-			[JsonPropertyName("job")]
-			public List<string>? Job { get; set; }
-			[JsonPropertyName("position")]
-			public List<string>? Position { get; set; }
-			[JsonPropertyName("other")]
-			public List<string>? Other { get; set; }
+			Operators = operatorsDto.Operators?.Select(o => new Operator
+			{
+				Name = o.Name ?? string.Empty,
+				Rarity = o.Rarity,
+				Class = StringToTag[o.Class ?? string.Empty],
+				Position = StringToTag[o.Position ?? string.Empty],
+				Specializations = o.Specializations?.Select(s => StringToTag[s]).ToImmutableList() ?? []
+			}).ToImmutableList() ?? [];
 		}
 
 		private class OperatorsDto
 		{
-			[JsonPropertyName("operators")]
 			public List<OperatorDto>? Operators { get; set; }
 		}
 
 		private class OperatorDto
 		{
-			[JsonPropertyName("name")]
 			public string? Name { get; set; }
-			[JsonPropertyName("rarity")]
 			public int Rarity { get; set; }
-			[JsonPropertyName("job")]
-			public string? Job { get; set; }
-			[JsonPropertyName("position")]
+			public string? Class { get; set; }
 			public string? Position { get; set; }
-			[JsonPropertyName("tags")]
-			public List<string>? Tags { get; set; }
+			public List<string>? Specializations { get; set; }
 		}
 	}
 }
