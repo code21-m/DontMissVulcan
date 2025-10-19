@@ -12,9 +12,9 @@ namespace DontMissVulcan.Models
 {
 	internal static partial class WindowHelper
 	{
-		public static IEnumerable<(HWND hWnd, string title)> EnumerateWindows()
+		public static IEnumerable<(HWND HWnd, string Title)> EnumerateWindows()
 		{
-			var windows = new List<(HWND hWnd, string title)>();
+			var windows = new List<(HWND HWnd, string Title)>();
 			PInvoke.EnumWindows((hWnd, lParam) =>
 			{
 				if (!PInvoke.IsWindowVisible(hWnd))
@@ -31,7 +31,7 @@ namespace DontMissVulcan.Models
 			return windows;
 		}
 
-		public static (HWND hWnd, string title) GetForegroundWindow()
+		public static (HWND HWnd, string Title) GetForegroundWindow()
 		{
 			var hWnd = PInvoke.GetForegroundWindow();
 			string title = GetWindowTitle(hWnd);
@@ -40,6 +40,10 @@ namespace DontMissVulcan.Models
 
 		public static bool SetForegroundWindow(HWND hWnd)
 		{
+			if (hWnd == HWND.Null)
+			{
+				return false;
+			}
 			if (PInvoke.IsIconic(hWnd))
 			{
 				PInvoke.ShowWindow(hWnd, SHOW_WINDOW_CMD.SW_RESTORE);
@@ -49,6 +53,7 @@ namespace DontMissVulcan.Models
 			{
 				return true;
 			}
+			// ウィンドウの表示・最前面化を行い再試行
 			PInvoke.ShowWindow(hWnd, SHOW_WINDOW_CMD.SW_RESTORE);
 			PInvoke.BringWindowToTop(hWnd);
 			PInvoke.SetForegroundWindow(hWnd);
@@ -57,6 +62,10 @@ namespace DontMissVulcan.Models
 
 		public static Rectangle GetWindowRectangle(HWND hWnd)
 		{
+			if (hWnd == HWND.Null)
+			{
+				return Rectangle.Empty;
+			}
 			if (PInvoke.GetWindowRect(hWnd, out RECT rect))
 			{
 				int width = rect.right - rect.left;
@@ -71,15 +80,31 @@ namespace DontMissVulcan.Models
 
 		private static bool IsForegroundWindow(HWND hWnd)
 		{
+			if (hWnd == HWND.Null)
+			{
+				return false;
+			}
 			return hWnd == PInvoke.GetForegroundWindow();
 		}
 
 		private static string GetWindowTitle(HWND hWnd)
 		{
+			if (hWnd == HWND.Null)
+			{
+				return String.Empty;
+			}
 			var length = PInvoke.GetWindowTextLength(hWnd);
+			if (length == 0)
+			{
+				return String.Empty;
+			}
 			Span<char> buffer = stackalloc char[length + 1];
-			var n = PInvoke.GetWindowText(hWnd, buffer);
-			return new string(buffer[..n]);
+			var copiedLength = PInvoke.GetWindowText(hWnd, buffer);
+			if (copiedLength == 0)
+			{
+				return String.Empty;
+			}
+			return new string(buffer[..copiedLength]);
 		}
 	}
 }
