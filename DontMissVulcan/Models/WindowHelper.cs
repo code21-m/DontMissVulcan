@@ -22,7 +22,7 @@ namespace DontMissVulcan.Models
 					return true;
 				}
 				string title = GetWindowTitle(hWnd);
-				if (!String.IsNullOrWhiteSpace(title))
+				if (!string.IsNullOrWhiteSpace(title))
 				{
 					windows.Add((hWnd, title));
 				}
@@ -91,18 +91,18 @@ namespace DontMissVulcan.Models
 		{
 			if (hWnd == HWND.Null)
 			{
-				return String.Empty;
+				return string.Empty;
 			}
 			var length = PInvoke.GetWindowTextLength(hWnd);
 			if (length == 0)
 			{
-				return String.Empty;
+				return string.Empty;
 			}
 			Span<char> buffer = stackalloc char[length + 1];
 			var copiedLength = PInvoke.GetWindowText(hWnd, buffer);
 			if (copiedLength == 0)
 			{
-				return String.Empty;
+				return string.Empty;
 			}
 			return new string(buffer[..copiedLength]);
 		}

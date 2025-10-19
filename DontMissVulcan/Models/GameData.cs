@@ -23,8 +23,8 @@ namespace DontMissVulcan.Models
 			var stringToTagBuilder = ImmutableDictionary.CreateBuilder<string, Tag>();
 			foreach (var kv in tagLanguageDto)
 			{
-				var key = kv.Key ?? String.Empty;
-				var value = kv.Value ?? String.Empty;
+				var key = kv.Key ?? string.Empty;
+				var value = kv.Value ?? string.Empty;
 				if (Enum.TryParse<Tag>(key, out var tag))
 				{
 					tagToStringBuilder.Add(tag, value);
