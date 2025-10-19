@@ -3,46 +3,44 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace DontMissVulcan.Models
 {
 	internal class GameData
 	{
-		public ImmutableDictionary<Tag, string> TagToString { get; }
-		public ImmutableDictionary<string, Tag> StringToTag { get; }
+		public ImmutableDictionary<Tag, string> TagToDisplayName { get; }
+		public ImmutableDictionary<string, Tag> DisplayNameToTag { get; }
 		public ImmutableList<Operator> Operators { get; }
 
-		public GameData(string tagToStringJsonPath, string operatorsJsonPath)
+		public GameData(string tagToDisplayNameJsonPath, string operatorsJsonPath)
 		{
-			var tagToStringJson = File.ReadAllText(tagToStringJsonPath);
-			var tagToStringDto = JsonSerializer.Deserialize<Dictionary<string, string>>(tagToStringJson) ?? [];
-			var tagToStringBuilder = ImmutableDictionary.CreateBuilder<Tag, string>();
-			var stringToTagBuilder = ImmutableDictionary.CreateBuilder<string, Tag>();
-			foreach (var kv in tagToStringDto)
+			var tagToDisplayNameJson = File.ReadAllText(tagToDisplayNameJsonPath);
+			var tagToDisplayNameDto = JsonSerializer.Deserialize<Dictionary<string, string>>(tagToDisplayNameJson) ?? [];
+			var tagToDisplayNameBuilder = ImmutableDictionary.CreateBuilder<Tag, string>();
+			var displayNameToTagBuilder = ImmutableDictionary.CreateBuilder<string, Tag>();
+			foreach (var kv in tagToDisplayNameDto)
 			{
 				var key = kv.Key ?? string.Empty;
 				var value = kv.Value ?? string.Empty;
 				if (Enum.TryParse<Tag>(key, out var tag))
 				{
-					tagToStringBuilder.Add(tag, value);
-					stringToTagBuilder.Add(value, tag);
+					tagToDisplayNameBuilder.Add(tag, value);
+					displayNameToTagBuilder.Add(value, tag);
 				}
 			}
-			TagToString = tagToStringBuilder.ToImmutable();
-			StringToTag = stringToTagBuilder.ToImmutable();
+			TagToDisplayName = tagToDisplayNameBuilder.ToImmutable();
+			DisplayNameToTag = displayNameToTagBuilder.ToImmutable();
 
 			var operatorsJson = File.ReadAllText(operatorsJsonPath);
 			var operatorsDto = JsonSerializer.Deserialize<OperatorsDto>(operatorsJson) ?? new OperatorsDto();
-			Operators = operatorsDto.Operators?.Select(o => new Operator
+			Operators = operatorsDto.Operators?.Select(operatorDto => new Operator
 			{
-				Name = o.Name ?? string.Empty,
-				Rarity = o.Rarity,
-				Class = StringToTag[o.Class ?? string.Empty],
-				Position = StringToTag[o.Position ?? string.Empty],
-				Specializations = o.Specializations?.Select(s => StringToTag[s]).ToImmutableList() ?? []
+				Name = operatorDto.Name ?? string.Empty,
+				Rarity = operatorDto.Rarity,
+				Class = DisplayNameToTag[operatorDto.Class ?? string.Empty],
+				Position = DisplayNameToTag[operatorDto.Position ?? string.Empty],
+				Specializations = operatorDto.Specializations?.Select(s => DisplayNameToTag[s]).ToImmutableList() ?? []
 			}).ToImmutableList() ?? [];
 		}
 

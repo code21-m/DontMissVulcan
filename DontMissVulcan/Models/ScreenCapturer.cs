@@ -1,11 +1,6 @@
-﻿using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Win32.Foundation;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
+using Windows.Win32.Foundation;
 
 namespace DontMissVulcan.Models
 {
@@ -13,7 +8,7 @@ namespace DontMissVulcan.Models
 	{
 		public static Bitmap CaptureWindow(HWND hWnd)
 		{
-			var rectangle = WindowHelper.GetWindowRectangle(hWnd);
+			var rectangle = WindowInterop.GetWindowRectangle(hWnd);
 			return CaptureRectangle(rectangle);
 		}
 

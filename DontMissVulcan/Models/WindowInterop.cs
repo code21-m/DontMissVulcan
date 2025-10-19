@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace DontMissVulcan.Models
 {
-	internal static partial class WindowHelper
+	internal static partial class WindowInterop
 	{
-		public static IEnumerable<(HWND HWnd, string Title)> EnumerateWindows()
+		public static IEnumerable<(HWND hWnd, string title)> EnumerateWindows()
 		{
-			var windows = new List<(HWND HWnd, string Title)>();
+			var windows = new List<(HWND hWnd, string title)>();
 			PInvoke.EnumWindows((hWnd, lParam) =>
 			{
 				if (!PInvoke.IsWindowVisible(hWnd))
@@ -31,7 +28,7 @@ namespace DontMissVulcan.Models
 			return windows;
 		}
 
-		public static (HWND HWnd, string Title) GetForegroundWindow()
+		public static (HWND hWnd, string title) GetForegroundWindow()
 		{
 			var hWnd = PInvoke.GetForegroundWindow();
 			string title = GetWindowTitle(hWnd);
