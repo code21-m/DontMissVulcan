@@ -30,19 +30,19 @@ namespace DontMissVulcan.Models
 			}
 			foreach (var tag in selectedTags)
 			{
-				if (TagCategories.Qualifications.Contains(tag))
+				if (TagCategories.QualificationTags.Contains(tag))
 				{
 					matchingOperators = matchingOperators.Where(o => o.Rarity == QualificationToRarity(tag));
 				}
-				else if (TagCategories.Classes.Contains(tag))
+				else if (TagCategories.ClassTags.Contains(tag))
 				{
 					matchingOperators = matchingOperators.Where(o => o.Class == tag);
 				}
-				else if (TagCategories.Positions.Contains(tag))
+				else if (TagCategories.PositionTags.Contains(tag))
 				{
 					matchingOperators = matchingOperators.Where(o => o.Position == tag);
 				}
-				else if (TagCategories.Specializations.Contains(tag))
+				else if (TagCategories.SpecializationTags.Contains(tag))
 				{
 					matchingOperators = matchingOperators.Where(o => o.Specializations.Contains(tag));
 				}
@@ -56,7 +56,7 @@ namespace DontMissVulcan.Models
 
 		private static int QualificationToRarity(Tag qualificationTag)
 		{
-			if (!TagCategories.Qualifications.Contains(qualificationTag))
+			if (!TagCategories.QualificationTags.Contains(qualificationTag))
 			{
 				throw new ArgumentException($"qualificationTag '{qualificationTag}' は有効なレア度タグではありません。", nameof(qualificationTag));
 			}

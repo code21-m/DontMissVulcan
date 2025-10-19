@@ -4,12 +4,12 @@ namespace DontMissVulcan.Models
 {
 	internal static class TagCategories
 	{
-		public static readonly ImmutableHashSet<Tag> Qualifications = [
+		public static readonly ImmutableHashSet<Tag> QualificationTags = [
 			Tag.SeniorOperator,
 			Tag.TopOperator
 		];
 
-		public static readonly ImmutableHashSet<Tag> Classes = [
+		public static readonly ImmutableHashSet<Tag> ClassTags = [
 			Tag.Vanguard,
 			Tag.Guard,
 			Tag.Defender,
@@ -20,12 +20,12 @@ namespace DontMissVulcan.Models
 			Tag.Specialist
 		];
 
-		public static readonly ImmutableHashSet<Tag> Positions = [
+		public static readonly ImmutableHashSet<Tag> PositionTags = [
 			Tag.Melee,
 			Tag.Ranged
 		];
 
-		public static readonly ImmutableHashSet<Tag> Specializations =
+		public static readonly ImmutableHashSet<Tag> SpecializationTags =
 		[
 			Tag.AoE,
 			Tag.CrowdControl,
