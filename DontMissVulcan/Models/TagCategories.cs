@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace DontMissVulcan.Models
 {
-	internal static class TagCategory
+	internal static class TagCategories
 	{
-		public static readonly ImmutableHashSet<Tag> Qualification = [
+		public static readonly ImmutableHashSet<Tag> Qualifications = [
 			Tag.SeniorOperator,
 			Tag.TopOperator
 		];
 
-		public static readonly ImmutableHashSet<Tag> Class = [
+		public static readonly ImmutableHashSet<Tag> Classes = [
 			Tag.Vanguard,
 			Tag.Guard,
 			Tag.Defender,
@@ -25,12 +25,12 @@ namespace DontMissVulcan.Models
 			Tag.Specialist
 		];
 
-		public static readonly ImmutableHashSet<Tag> Position = [
+		public static readonly ImmutableHashSet<Tag> Positions = [
 			Tag.Melee,
 			Tag.Ranged
 		];
 
-		public static readonly ImmutableHashSet<Tag> Specialization =
+		public static readonly ImmutableHashSet<Tag> Specializations =
 		[
 			Tag.AoE,
 			Tag.CrowdControl,
