@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Win32.Foundation;
 
 namespace DontMissVulcan.Models
 {
 	internal static class ScreenCapturer
 	{
-		public static Bitmap CaptureWindow(nint hWnd)
+		public static Bitmap CaptureWindow(HWND hWnd)
 		{
 			var rectangle = WindowHelper.GetWindowRectangle(hWnd);
 			return CaptureRectangle(rectangle);

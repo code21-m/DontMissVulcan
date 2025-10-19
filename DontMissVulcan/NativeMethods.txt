@@ -1,0 +1,10 @@
+﻿BringWindowToTop
+EnumWindows
+GetForegroundWindow
+GetWindowRect
+GetWindowText
+GetWindowTextLength
+IsWindowVisible
+IsIconic
+SetForegroundWindow
+ShowWindow
