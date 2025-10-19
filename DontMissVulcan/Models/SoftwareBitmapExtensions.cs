@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Windows.Storage.Streams;
-using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace DontMissVulcan.Models
 {
@@ -61,7 +57,7 @@ namespace DontMissVulcan.Models
 					supportsAlpha = true;
 					break;
 			}
-			
+
 			SoftwareBitmap bitmapToEncode = (source.BitmapPixelFormat == BitmapPixelFormat.Bgra8 && source.BitmapAlphaMode == BitmapAlphaMode.Premultiplied)
 				? source
 				: SoftwareBitmap.Convert(source, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
@@ -100,6 +96,8 @@ namespace DontMissVulcan.Models
 
 		private static byte[] FlattenToBgra8White(SoftwareBitmap bitmap)
 		{
+			Debug.Assert(bitmap.BitmapAlphaMode == BitmapAlphaMode.Premultiplied);
+
 			int width = bitmap.PixelWidth;
 			int height = bitmap.PixelHeight;
 			int totalBytes = width * height * 4;
@@ -107,11 +105,9 @@ namespace DontMissVulcan.Models
 			var buffer = pixels.AsBuffer(0, totalBytes);
 			bitmap.CopyToBuffer(buffer);
 
-			// Pixel layout: B,G,R,A (premultiplied)
 			for (int i = 0; i < totalBytes; i += 4)
 			{
 				int a = pixels[i + 3];
-				if (a == 255) continue;
 				int inv = 255 - a;
 				pixels[i + 0] = (byte)Math.Min(255, pixels[i + 0] + inv);
 				pixels[i + 1] = (byte)Math.Min(255, pixels[i + 1] + inv);
