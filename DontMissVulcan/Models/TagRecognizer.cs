@@ -9,7 +9,7 @@ using Windows.Media.Ocr;
 
 namespace DontMissVulcan.Models
 {
-	internal class TagRecognizer(Language language, GameData gameData)
+	internal class TagRecognizer(GameData gameData, Language language)
 	{
 		private readonly GameData gameData = gameData;
 		private readonly OcrEngine ocrEngine = OcrEngine.TryCreateFromLanguage(language);
