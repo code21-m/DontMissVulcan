@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
-using Windows.Storage.Streams;
 
 namespace DontMissVulcan.Models
 {
@@ -41,16 +35,16 @@ namespace DontMissVulcan.Models
 
 			if (source.PixelFormat == PixelFormat.Format32bppPArgb)
 			{
-				return BitmapFormat32bppPArgbToSotwareBitmap(source);
+				return ToSoftwareBitmapCore(source);
 			}
 			else
 			{
 				using var bitmap32 = source.CloneWithPixelFormat(PixelFormat.Format32bppPArgb);
-				return BitmapFormat32bppPArgbToSotwareBitmap(bitmap32);
+				return ToSoftwareBitmapCore(bitmap32);
 			}
 		}
 
-		private static SoftwareBitmap BitmapFormat32bppPArgbToSotwareBitmap(Bitmap bitmap)
+		private static SoftwareBitmap ToSoftwareBitmapCore(Bitmap bitmap)
 		{
 			Debug.Assert(bitmap.PixelFormat == PixelFormat.Format32bppPArgb);
 
