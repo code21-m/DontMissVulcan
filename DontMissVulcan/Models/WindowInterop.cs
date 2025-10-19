@@ -7,7 +7,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace DontMissVulcan.Models
 {
-	internal static partial class WindowInterop
+	internal static class WindowInterop
 	{
 		public static IEnumerable<(HWND hWnd, string title)> EnumerateWindows()
 		{
