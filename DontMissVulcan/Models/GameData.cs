@@ -40,7 +40,7 @@ namespace DontMissVulcan.Models
 				Rarity = operatorDto.Rarity,
 				Class = DisplayNameToTag[operatorDto.Class ?? string.Empty],
 				Position = DisplayNameToTag[operatorDto.Position ?? string.Empty],
-				Specializations = operatorDto.Specializations?.Select(s => DisplayNameToTag[s]).ToImmutableList() ?? []
+				Specializations = operatorDto.Specializations?.Select(s => DisplayNameToTag[s]).ToImmutableHashSet() ?? []
 			}).ToImmutableList() ?? [];
 		}
 

@@ -8,6 +8,6 @@ namespace DontMissVulcan.Models
 		public required int Rarity { get; init; }
 		public required Tag Class { get; init; }
 		public required Tag Position { get; init; }
-		public required ImmutableList<Tag> Specializations { get; init; }
+		public required ImmutableHashSet<Tag> Specializations { get; init; }
 	}
 }
