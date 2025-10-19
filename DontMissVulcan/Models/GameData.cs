@@ -15,13 +15,13 @@ namespace DontMissVulcan.Models
 		public ImmutableDictionary<string, Tag> StringToTag { get; }
 		public ImmutableList<Operator> Operators { get; }
 
-		public GameData(string tagLanguageJsonPath, string operatorsJsonPath)
+		public GameData(string tagToStringJsonPath, string operatorsJsonPath)
 		{
-			var tagLanguageJson = File.ReadAllText(tagLanguageJsonPath);
-			var tagLanguageDto = JsonSerializer.Deserialize<Dictionary<string, string>>(tagLanguageJson) ?? [];
+			var tagToStringJson = File.ReadAllText(tagToStringJsonPath);
+			var tagToStringDto = JsonSerializer.Deserialize<Dictionary<string, string>>(tagToStringJson) ?? [];
 			var tagToStringBuilder = ImmutableDictionary.CreateBuilder<Tag, string>();
 			var stringToTagBuilder = ImmutableDictionary.CreateBuilder<string, Tag>();
-			foreach (var kv in tagLanguageDto)
+			foreach (var kv in tagToStringDto)
 			{
 				var key = kv.Key ?? string.Empty;
 				var value = kv.Value ?? string.Empty;
