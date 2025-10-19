@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Win32.Foundation;
+using System.Drawing.Imaging;
 
 namespace DontMissVulcan.Models
 {
@@ -18,7 +19,7 @@ namespace DontMissVulcan.Models
 
 		public static Bitmap CaptureRectangle(Rectangle rectangle)
 		{
-			var bitmap = new Bitmap(rectangle.Width, rectangle.Height);
+			var bitmap = new Bitmap(rectangle.Width, rectangle.Height, PixelFormat.Format32bppPArgb);
 			using (var graphics = Graphics.FromImage(bitmap))
 			{
 				graphics.CopyFromScreen(rectangle.Left, rectangle.Top, 0, 0, rectangle.Size);
