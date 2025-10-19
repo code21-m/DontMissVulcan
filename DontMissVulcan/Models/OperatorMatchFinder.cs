@@ -4,24 +4,25 @@ using System.Linq;
 
 namespace DontMissVulcan.Models
 {
-	internal class OperatorMatcher(GameData gameData)
+	internal class OperatorMatchFinder(GameData gameData)
 	{
 		private readonly GameData _gameData = gameData;
 
-		public IEnumerable<(IEnumerable<Tag> tags, IEnumerable<Operator> operators)> EnumerateMatchingOperatorsForTagCombinations(IEnumerable<Tag> appearedTags)
+		public sealed record OperatorMatch(IEnumerable<Tag> Tags, IEnumerable<Operator> Operators);
+
+		public IEnumerable<OperatorMatch> EnumerateMatches(IEnumerable<Tag> appearedTags)
 		{
-			const int MaxSelectionCount = 3;
-			for (var size = 1; size <= MaxSelectionCount; size++)
+			for (var size = 1; size <= 3; size++)
 			{
 				foreach (var selectedTags in appearedTags.EnumerateCombinations(size))
 				{
-					var matchingOperators = GetMatchingOperators(selectedTags);
-					yield return (selectedTags, matchingOperators);
+					var matchingOperators = FindOperators(selectedTags);
+					yield return new OperatorMatch(selectedTags, matchingOperators);
 				}
 			}
 		}
 
-		public IEnumerable<Operator> GetMatchingOperators(IEnumerable<Tag> selectedTags)
+		private IEnumerable<Operator> FindOperators(IEnumerable<Tag> selectedTags)
 		{
 			var matchingOperators = _gameData.Operators.AsEnumerable();
 			if (!selectedTags.Contains(Tag.SeniorOperator))
