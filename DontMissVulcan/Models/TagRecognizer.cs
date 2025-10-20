@@ -18,7 +18,7 @@ namespace DontMissVulcan.Models
 			var ocrResult = await _ocrEngine.RecognizeAsync(softwareBitmap);
 			var lines = ocrResult.Lines;
 			var lineTexts = _ocrEngine.RecognizerLanguage.IsSpaceDelimited()
-				? lines.Select(line => line.Text)
+				? lines.Select(line => line.Text.Trim())
 				: lines.Select(line => line.Words).Select(words => string.Concat(words.Select(word => word.Text).Where(text => !string.IsNullOrWhiteSpace(text))));
 			var tags = lineTexts
 				.Where(_gameData.DisplayNameToTag.ContainsKey)
