@@ -12,9 +12,9 @@ namespace DontMissVulcan.Models
 
 		public IEnumerable<OperatorMatch> EnumerateMatches(IEnumerable<Tag> appearedTags)
 		{
-			for (var size = 1; size <= 3; size++)
+			for (var selectedTagCount = 1; selectedTagCount <= 3; selectedTagCount++)
 			{
-				foreach (var selectedTags in appearedTags.EnumerateCombinations(size))
+				foreach (var selectedTags in appearedTags.EnumerateCombinations(selectedTagCount))
 				{
 					var matchingOperators = FindOperators(selectedTags);
 					yield return new OperatorMatch(selectedTags, matchingOperators);
