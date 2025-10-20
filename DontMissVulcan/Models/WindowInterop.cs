@@ -9,6 +9,26 @@ namespace DontMissVulcan.Models
 {
 	internal static class WindowInterop
 	{
+		public static string GetWindowTitle(HWND hWnd)
+		{
+			if (hWnd == HWND.Null)
+			{
+				return string.Empty;
+			}
+			var length = PInvoke.GetWindowTextLength(hWnd);
+			if (length == 0)
+			{
+				return string.Empty;
+			}
+			Span<char> buffer = stackalloc char[length + 1];
+			var copiedLength = PInvoke.GetWindowText(hWnd, buffer);
+			if (copiedLength == 0)
+			{
+				return string.Empty;
+			}
+			return new string(buffer[..copiedLength]);
+		}
+
 		public static IEnumerable<(HWND hWnd, string title)> EnumerateWindows()
 		{
 			var windows = new List<(HWND hWnd, string title)>();
@@ -33,6 +53,15 @@ namespace DontMissVulcan.Models
 			var hWnd = PInvoke.GetForegroundWindow();
 			string title = GetWindowTitle(hWnd);
 			return (hWnd, title);
+		}
+
+		public static bool IsForegroundWindow(HWND hWnd)
+		{
+			if (hWnd == HWND.Null)
+			{
+				return false;
+			}
+			return hWnd == PInvoke.GetForegroundWindow();
 		}
 
 		public static bool SetForegroundWindow(HWND hWnd)
@@ -73,35 +102,6 @@ namespace DontMissVulcan.Models
 			{
 				return Rectangle.Empty;
 			}
-		}
-
-		private static bool IsForegroundWindow(HWND hWnd)
-		{
-			if (hWnd == HWND.Null)
-			{
-				return false;
-			}
-			return hWnd == PInvoke.GetForegroundWindow();
-		}
-
-		private static string GetWindowTitle(HWND hWnd)
-		{
-			if (hWnd == HWND.Null)
-			{
-				return string.Empty;
-			}
-			var length = PInvoke.GetWindowTextLength(hWnd);
-			if (length == 0)
-			{
-				return string.Empty;
-			}
-			Span<char> buffer = stackalloc char[length + 1];
-			var copiedLength = PInvoke.GetWindowText(hWnd, buffer);
-			if (copiedLength == 0)
-			{
-				return string.Empty;
-			}
-			return new string(buffer[..copiedLength]);
 		}
 	}
 }
