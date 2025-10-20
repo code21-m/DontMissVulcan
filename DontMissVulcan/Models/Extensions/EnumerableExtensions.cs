@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DontMissVulcan.Models
+namespace DontMissVulcan.Models.Extensions
 {
 	internal static class EnumerableExtensions
 	{

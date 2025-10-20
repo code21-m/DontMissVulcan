@@ -1,8 +1,10 @@
-﻿using System;
+﻿using DontMissVulcan.Models.Domain;
+using DontMissVulcan.Models.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DontMissVulcan.Models
+namespace DontMissVulcan.Models.Matching
 {
 	internal class OperatorMatchFinder(GameData gameData)
 	{

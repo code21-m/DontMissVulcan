@@ -2,7 +2,7 @@
 using System.Drawing.Imaging;
 using Windows.Win32.Foundation;
 
-namespace DontMissVulcan.Models
+namespace DontMissVulcan.Models.Platform
 {
 	internal static class ScreenCapturer
 	{

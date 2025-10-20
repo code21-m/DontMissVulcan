@@ -1,4 +1,4 @@
-﻿namespace DontMissVulcan.Models
+﻿namespace DontMissVulcan.Models.Domain
 {
 	internal enum Tag
 	{

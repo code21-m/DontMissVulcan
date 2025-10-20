@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 
-namespace DontMissVulcan.Models
+namespace DontMissVulcan.Models.Extensions
 {
 	internal static class SoftwareBitmapExtensions
 	{
@@ -58,7 +58,7 @@ namespace DontMissVulcan.Models
 					break;
 			}
 
-			SoftwareBitmap bitmapToEncode = (source.BitmapPixelFormat == BitmapPixelFormat.Bgra8 && source.BitmapAlphaMode == BitmapAlphaMode.Premultiplied)
+			SoftwareBitmap bitmapToEncode = source.BitmapPixelFormat == BitmapPixelFormat.Bgra8 && source.BitmapAlphaMode == BitmapAlphaMode.Premultiplied
 				? source
 				: SoftwareBitmap.Convert(source, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
 

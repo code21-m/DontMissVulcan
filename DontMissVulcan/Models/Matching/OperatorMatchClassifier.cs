@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DontMissVulcan.Models.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using static DontMissVulcan.Models.OperatorMatchFinder;
+using static DontMissVulcan.Models.Matching.OperatorMatchFinder;
 
-namespace DontMissVulcan.Models
+namespace DontMissVulcan.Models.Matching
 {
 	internal static class OperatorMatchClassifier
 	{

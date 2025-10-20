@@ -2,7 +2,7 @@
 using System.Linq;
 using Windows.Globalization;
 
-namespace DontMissVulcan.Models
+namespace DontMissVulcan.Models.Extensions
 {
 	internal static class LanguageExtensions
 	{

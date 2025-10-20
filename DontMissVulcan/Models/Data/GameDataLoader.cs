@@ -1,19 +1,16 @@
-﻿using System;
+﻿using DontMissVulcan.Models.Domain;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 
-namespace DontMissVulcan.Models
+namespace DontMissVulcan.Models.Data
 {
-	internal class GameData
+	internal static class GameDataLoader
 	{
-		public ImmutableDictionary<Tag, string> TagToDisplayName { get; }
-		public ImmutableDictionary<string, Tag> DisplayNameToTag { get; }
-		public ImmutableList<Operator> Operators { get; }
-
-		public GameData(string tagToDisplayNameJsonPath, string operatorsJsonPath)
+		public static GameData Load(string tagToDisplayNameJsonPath, string operatorsJsonPath)
 		{
 			var tagToDisplayNameJson = File.ReadAllText(tagToDisplayNameJsonPath);
 			var tagToDisplayNameDto = JsonSerializer.Deserialize<Dictionary<string, string>>(tagToDisplayNameJson) ?? [];
@@ -29,19 +26,21 @@ namespace DontMissVulcan.Models
 					displayNameToTagBuilder.Add(value, tag);
 				}
 			}
-			TagToDisplayName = tagToDisplayNameBuilder.ToImmutable();
-			DisplayNameToTag = displayNameToTagBuilder.ToImmutable();
+			var tagToDisplayName = tagToDisplayNameBuilder.ToImmutable();
+			var displayNameToTag = displayNameToTagBuilder.ToImmutable();
 
 			var operatorsJson = File.ReadAllText(operatorsJsonPath);
 			var operatorsDto = JsonSerializer.Deserialize<OperatorsDto>(operatorsJson) ?? new OperatorsDto();
-			Operators = operatorsDto.Operators?.Select(operatorDto => new Operator
+			var operators = operatorsDto.Operators?.Select(operatorDto => new Operator
 			{
 				Name = operatorDto.Name ?? string.Empty,
 				Rarity = operatorDto.Rarity,
-				Class = DisplayNameToTag[operatorDto.Class ?? string.Empty],
-				Position = DisplayNameToTag[operatorDto.Position ?? string.Empty],
-				Specializations = operatorDto.Specializations?.Select(s => DisplayNameToTag[s]).ToImmutableHashSet() ?? []
+				Class = displayNameToTag[operatorDto.Class ?? string.Empty],
+				Position = displayNameToTag[operatorDto.Position ?? string.Empty],
+				Specializations = operatorDto.Specializations?.Select(s => displayNameToTag[s]).ToImmutableHashSet() ?? []
 			}).ToImmutableList() ?? [];
+
+			return new GameData(tagToDisplayName, displayNameToTag, operators);
 		}
 
 		private class OperatorsDto

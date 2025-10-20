@@ -1,6 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 
-namespace DontMissVulcan.Models
+namespace DontMissVulcan.Models.Domain
 {
 	internal class Operator
 	{
@@ -8,6 +8,6 @@ namespace DontMissVulcan.Models
 		public required int Rarity { get; init; }
 		public required Tag Class { get; init; }
 		public required Tag Position { get; init; }
-		public required ImmutableHashSet<Tag> Specializations { get; init; }
+		public required IReadOnlySet<Tag> Specializations { get; init; }
 	}
 }

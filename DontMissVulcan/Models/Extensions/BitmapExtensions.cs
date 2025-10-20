@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Graphics.Imaging;
 
-namespace DontMissVulcan.Models
+namespace DontMissVulcan.Models.Extensions
 {
 	internal static class BitmapExtensions
 	{

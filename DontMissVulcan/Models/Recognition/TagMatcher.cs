@@ -1,12 +1,8 @@
-﻿using System;
+﻿using DontMissVulcan.Models.Domain;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Windows.Globalization;
-using Windows.Graphics.Imaging;
-using Windows.Media.Ocr;
 
-namespace DontMissVulcan.Models
+namespace DontMissVulcan.Models.Recognition
 {
 	internal class TagMatcher(GameData gameData)
 	{
