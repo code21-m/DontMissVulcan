@@ -1,8 +1,5 @@
 {
   "profiles": {
-    "DontMissVulcan (Package)": {
-      "commandName": "MsixPackage"
-    },
     "DontMissVulcan (Unpackaged)": {
       "commandName": "Project"
     }
