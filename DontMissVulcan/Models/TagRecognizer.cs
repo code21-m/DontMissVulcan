@@ -16,9 +16,10 @@ namespace DontMissVulcan.Models
 		public async Task<IEnumerable<Tag>> Recognize(SoftwareBitmap softwareBitmap)
 		{
 			var ocrResult = await _ocrEngine.RecognizeAsync(softwareBitmap);
-			var lineTexts = ocrResult.Lines
-				.Select(line => line.Words)
-				.Select(wordsPerLine => string.Concat(wordsPerLine.Select(word => word.Text)));
+			var lines = ocrResult.Lines;
+			var lineTexts = _ocrEngine.RecognizerLanguage.IsSpaceDelimited()
+				? lines.Select(line => line.Text)
+				: lines.Select(line => line.Words).Select(words => string.Concat(words.Select(word => word.Text).Where(text => !string.IsNullOrWhiteSpace(text))));
 			var tags = lineTexts
 				.Where(_gameData.DisplayNameToTag.ContainsKey)
 				.Select(text => _gameData.DisplayNameToTag[text]).ToHashSet();
