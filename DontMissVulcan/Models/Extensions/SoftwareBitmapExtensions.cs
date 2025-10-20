@@ -12,8 +12,6 @@ namespace DontMissVulcan.Models.Extensions
 	{
 		public static async Task SaveAsync(this SoftwareBitmap source, string filename)
 		{
-			ArgumentNullException.ThrowIfNull(source);
-
 			if (string.IsNullOrWhiteSpace(filename))
 			{
 				throw new ArgumentException("filename must be provided", nameof(filename));

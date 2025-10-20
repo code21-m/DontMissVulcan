@@ -20,8 +20,6 @@ namespace DontMissVulcan.Models.Extensions
 
 		public static bool IsSpaceDelimited(this Language source)
 		{
-			ArgumentNullException.ThrowIfNull(source);
-
 			var languagePrefix = source.LanguageTag.Split('-')[0];
 			return !s_noSpaceDelimitedLanguagePrefixes.Contains(languagePrefix, StringComparer.OrdinalIgnoreCase);
 		}

@@ -13,8 +13,6 @@ namespace DontMissVulcan.Models.Extensions
 	{
 		public static Bitmap CloneWithPixelFormat(this Bitmap source, PixelFormat pixelFormat)
 		{
-			ArgumentNullException.ThrowIfNull(source);
-
 			if (source.PixelFormat == pixelFormat)
 			{
 				return (Bitmap)source.Clone();
@@ -31,8 +29,6 @@ namespace DontMissVulcan.Models.Extensions
 
 		public static SoftwareBitmap ToSoftwareBitmap(this Bitmap source)
 		{
-			ArgumentNullException.ThrowIfNull(source);
-
 			if (source.PixelFormat == PixelFormat.Format32bppPArgb)
 			{
 				return ToSoftwareBitmapCore(source);
