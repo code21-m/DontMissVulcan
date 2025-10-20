@@ -45,13 +45,9 @@ namespace DontMissVulcan.Models.Matching
 				{
 					matchingOperators = matchingOperators.Where(o => o.Position == tag);
 				}
-				else if (TagCategories.SpecializationTags.Contains(tag))
-				{
-					matchingOperators = matchingOperators.Where(o => o.Specializations.Contains(tag));
-				}
 				else
 				{
-					throw new ArgumentException($"タグ '{tag}' は有効なタグではありません。", nameof(selectedTags));
+					matchingOperators = matchingOperators.Where(o => o.Specializations.Contains(tag));
 				}
 			}
 			return matchingOperators;
@@ -61,8 +57,9 @@ namespace DontMissVulcan.Models.Matching
 		{
 			if (!TagCategories.QualificationTags.Contains(qualificationTag))
 			{
-				throw new ArgumentException($"qualificationTag '{qualificationTag}' は有効なレア度タグではありません。", nameof(qualificationTag));
+				throw new ArgumentException($"'{qualificationTag}' is not a qualification tag", nameof(qualificationTag));
 			}
+
 			return qualificationTag switch
 			{
 				Tag.SeniorOperator => 6,
