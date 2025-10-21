@@ -4,11 +4,26 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:DontMissVulcan.Views"
+    xmlns:vm="using:DontMissVulcan.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <ItemsControl ItemsSource="{x:Bind ViewModel.Categories}">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:TagCategoryViewModel">
+                <StackPanel Margin="8">
+                    <TextBlock Text="{x:Bind Name}" />
 
-    </Grid>
+                    <GridView ItemsSource="{x:Bind Tags}">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:TagItemViewModel">
+                                <ToggleButton Content="{x:Bind DisplayName}" IsChecked="{x:Bind IsSelected, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </StackPanel>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </UserControl>
