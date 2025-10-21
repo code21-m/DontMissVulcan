@@ -1,6 +1,7 @@
 ﻿using DontMissVulcan.Models.Data.Dto;
 using DontMissVulcan.Models.Domain;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
@@ -12,8 +13,27 @@ namespace DontMissVulcan.Models.Data
 	{
 		public static GameData Load(string tagToDisplayNameJsonPath, string operatorsJsonPath)
 		{
-			var tagToDisplayNameJson = File.ReadAllText(tagToDisplayNameJsonPath);
-			var tagToDisplayNameDto = JsonSerializer.Deserialize(tagToDisplayNameJson, GameDataJsonContext.Default.DictionaryStringString) ?? [];
+			string tagToDisplayNameJson;
+			try
+			{
+				tagToDisplayNameJson = File.ReadAllText(tagToDisplayNameJsonPath);
+			}
+			catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is System.Security.SecurityException)
+			{
+				throw new InvalidOperationException($"Failed to read tag-to-display-name JSON file: '{tagToDisplayNameJsonPath}'", ex);
+			}
+
+			Dictionary<string, string> tagToDisplayNameDto;
+			try
+			{
+				tagToDisplayNameDto = JsonSerializer.Deserialize(tagToDisplayNameJson, GameDataJsonContext.Default.DictionaryStringString)
+					?? [];
+			}
+			catch (JsonException ex)
+			{
+				throw new InvalidOperationException($"Failed to parse tag-to-display-name JSON file: '{tagToDisplayNameJsonPath}'", ex);
+			}
+
 			var tagToDisplayNameBuilder = ImmutableDictionary.CreateBuilder<Tag, string>();
 			var displayNameToTagBuilder = ImmutableDictionary.CreateBuilder<string, Tag>();
 			foreach (var kv in tagToDisplayNameDto)
@@ -29,8 +49,26 @@ namespace DontMissVulcan.Models.Data
 			var tagToDisplayName = tagToDisplayNameBuilder.ToImmutable();
 			var displayNameToTag = displayNameToTagBuilder.ToImmutable();
 
-			var operatorsJson = File.ReadAllText(operatorsJsonPath);
-			var operatorsDto = JsonSerializer.Deserialize(operatorsJson, GameDataJsonContext.Default.OperatorsDto) ?? new OperatorsDto();
+			string operatorsJson;
+			try
+			{
+				operatorsJson = File.ReadAllText(operatorsJsonPath);
+			}
+			catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is System.Security.SecurityException)
+			{
+				throw new InvalidOperationException($"Failed to read operators JSON file: '{operatorsJsonPath}'", ex);
+			}
+
+			OperatorsDto operatorsDto;
+			try
+			{
+				operatorsDto = JsonSerializer.Deserialize(operatorsJson, GameDataJsonContext.Default.OperatorsDto) ?? new OperatorsDto();
+			}
+			catch (JsonException ex)
+			{
+				throw new InvalidOperationException($"Failed to parse operators JSON file: '{operatorsJsonPath}'", ex);
+			}
+
 			var operators = operatorsDto.Operators?.Select(operatorDto => new Operator
 			{
 				Name = operatorDto.Name ?? string.Empty,
