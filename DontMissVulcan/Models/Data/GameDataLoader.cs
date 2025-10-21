@@ -18,12 +18,12 @@ namespace DontMissVulcan.Models.Data
 			var displayNameToTagBuilder = ImmutableDictionary.CreateBuilder<string, Tag>();
 			foreach (var kv in tagToDisplayNameDto)
 			{
-				var key = kv.Key ?? string.Empty;
-				var value = kv.Value ?? string.Empty;
-				if (Enum.TryParse<Tag>(key, out var tag))
+				var tagString = kv.Key ?? string.Empty;
+				var displayName = kv.Value ?? string.Empty;
+				if (Enum.TryParse<Tag>(tagString, out var tag))
 				{
-					tagToDisplayNameBuilder.Add(tag, value);
-					displayNameToTagBuilder.Add(value, tag);
+					tagToDisplayNameBuilder.Add(tag, displayName);
+					displayNameToTagBuilder.Add(displayName, tag);
 				}
 			}
 			var tagToDisplayName = tagToDisplayNameBuilder.ToImmutable();
