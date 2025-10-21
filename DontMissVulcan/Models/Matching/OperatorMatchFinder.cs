@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DontMissVulcan.Models.Matching
 {
-	internal class OperatorMatchFinder(GameData gameData)
+	public class OperatorMatchFinder(GameData gameData)
 	{
 		private readonly GameData _gameData = gameData;
 

@@ -1,12 +1,12 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
-using Windows.Win32.Foundation;
 
 namespace DontMissVulcan.Models.Platform
 {
-	internal static class ScreenCapturer
+	public static class ScreenCapturer
 	{
-		public static Bitmap CaptureWindow(HWND hWnd)
+		public static Bitmap CaptureWindow(IntPtr hWnd)
 		{
 			var rectangle = WindowInterop.GetWindowRectangle(hWnd);
 			return CaptureRectangle(rectangle);

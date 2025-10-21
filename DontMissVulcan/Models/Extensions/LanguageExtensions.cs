@@ -4,7 +4,7 @@ using Windows.Globalization;
 
 namespace DontMissVulcan.Models.Extensions
 {
-	internal static class LanguageExtensions
+	public static class LanguageExtensions
 	{
 		private static readonly string[] s_noSpaceDelimitedLanguagePrefixes =
 		{

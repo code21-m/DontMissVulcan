@@ -8,7 +8,7 @@ using Windows.Storage;
 
 namespace DontMissVulcan.Models.Extensions
 {
-	internal static class SoftwareBitmapExtensions
+	public static class SoftwareBitmapExtensions
 	{
 		public static async Task SaveAsync(this SoftwareBitmap source, string filename)
 		{

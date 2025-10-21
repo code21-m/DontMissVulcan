@@ -9,7 +9,7 @@ using Windows.Graphics.Imaging;
 
 namespace DontMissVulcan.Models.Extensions
 {
-	internal static class BitmapExtensions
+	public static class BitmapExtensions
 	{
 		public static Bitmap CloneWithPixelFormat(this Bitmap source, PixelFormat pixelFormat)
 		{

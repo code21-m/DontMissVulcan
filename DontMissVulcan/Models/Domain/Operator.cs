@@ -2,7 +2,7 @@
 
 namespace DontMissVulcan.Models.Domain
 {
-	internal class Operator
+	public class Operator
 	{
 		public required string Name { get; init; }
 		public required int Rarity { get; init; }

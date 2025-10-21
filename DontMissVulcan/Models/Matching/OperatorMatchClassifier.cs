@@ -6,7 +6,7 @@ using static DontMissVulcan.Models.Matching.OperatorMatchFinder;
 
 namespace DontMissVulcan.Models.Matching
 {
-	internal static class OperatorMatchClassifier
+	public static class OperatorMatchClassifier
 	{
 		public sealed record MatchClassification(
 			IEnumerable<OperatorMatch> SixStarsOperators,

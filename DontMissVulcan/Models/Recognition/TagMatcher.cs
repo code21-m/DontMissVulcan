@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DontMissVulcan.Models.Recognition
 {
-	internal class TagMatcher(GameData gameData)
+	public class TagMatcher(GameData gameData)
 	{
 		private readonly GameData _gameData = gameData;
 

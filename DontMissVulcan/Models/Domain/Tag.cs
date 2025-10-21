@@ -1,6 +1,6 @@
 ﻿namespace DontMissVulcan.Models.Domain
 {
-	internal enum Tag
+	public enum Tag
 	{
 		// Qualification
 		SeniorOperator, // 上級エリート

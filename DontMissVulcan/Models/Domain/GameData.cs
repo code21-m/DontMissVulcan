@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 
 namespace DontMissVulcan.Models.Domain
 {
-	internal class GameData(
+	public class GameData(
 		IReadOnlyDictionary<Tag, string> tagToDisplayName,
 		IReadOnlyDictionary<string, Tag> displayNameToTag,
 		IReadOnlyList<Operator> operators)

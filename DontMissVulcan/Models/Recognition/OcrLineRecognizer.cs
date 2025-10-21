@@ -9,7 +9,7 @@ using Windows.Media.Ocr;
 
 namespace DontMissVulcan.Models.Recognition
 {
-	internal class OcrLineRecognizer(Language language)
+	public class OcrLineRecognizer(Language language)
 	{
 		private readonly OcrEngine _ocrEngine = OcrEngine.TryCreateFromLanguage(language);
 

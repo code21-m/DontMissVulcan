@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace DontMissVulcan.Models.Data
 {
-	internal static class GameDataLoader
+	public static class GameDataLoader
 	{
 		public static GameData Load(string tagToDisplayNameJsonPath, string operatorsJsonPath)
 		{

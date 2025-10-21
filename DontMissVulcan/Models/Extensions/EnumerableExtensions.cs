@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DontMissVulcan.Models.Extensions
 {
-	internal static class EnumerableExtensions
+	public static class EnumerableExtensions
 	{
 		public static IEnumerable<IEnumerable<T>> EnumerateCombinations<T>(this IEnumerable<T> source, int size)
 		{

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DontMissVulcan.Models.Domain
 {
-	internal static class TagCategories
+	public static class TagCategories
 	{
 		public static readonly IReadOnlySet<Tag> QualificationTags =
 			ImmutableHashSet.Create(Tag.SeniorOperator, Tag.TopOperator);
