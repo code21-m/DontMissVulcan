@@ -14,12 +14,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup>
     <WindowsPackageType>None</WindowsPackageType>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
