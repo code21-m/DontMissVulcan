@@ -1,11 +1,10 @@
-﻿using DontMissVulcan.Models.Domain;
+﻿using DontMissVulcan.Models.Data.Dto;
+using DontMissVulcan.Models.Domain;
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace DontMissVulcan.Models.Data
 {
@@ -44,22 +43,4 @@ namespace DontMissVulcan.Models.Data
 			return new GameData(tagToDisplayName, displayNameToTag, operators);
 		}
 	}
-
-	internal class OperatorsDto
-	{
-		public List<OperatorDto>? Operators { get; set; }
-	}
-
-	internal class OperatorDto
-	{
-		public string? Name { get; set; }
-		public int Rarity { get; set; }
-		public string? Class { get; set; }
-		public string? Position { get; set; }
-		public List<string>? Specializations { get; set; }
-	}
-
-	[JsonSerializable(typeof(Dictionary<string, string>))]
-	[JsonSerializable(typeof(OperatorsDto))]
-	internal partial class GameDataJsonContext : JsonSerializerContext { }
 }
