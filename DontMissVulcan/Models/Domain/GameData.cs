@@ -24,7 +24,6 @@ namespace DontMissVulcan.Models.Domain
 			var r => [.. r]
 		};
 
-		// 公開プロパティは IReadOnly インターフェイスで外部に公開
 		public IReadOnlyDictionary<Tag, string> TagToDisplayName => _tagToDisplayName;
 		public IReadOnlyDictionary<string, Tag> DisplayNameToTag => _displayNameToTag;
 		public IReadOnlyList<Operator> Operators => _operators;
