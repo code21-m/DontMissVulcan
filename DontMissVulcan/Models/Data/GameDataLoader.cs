@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DontMissVulcan.Models.Data
 {
@@ -13,7 +14,7 @@ namespace DontMissVulcan.Models.Data
 		public static GameData Load(string tagToDisplayNameJsonPath, string operatorsJsonPath)
 		{
 			var tagToDisplayNameJson = File.ReadAllText(tagToDisplayNameJsonPath);
-			var tagToDisplayNameDto = JsonSerializer.Deserialize<Dictionary<string, string>>(tagToDisplayNameJson) ?? [];
+			var tagToDisplayNameDto = JsonSerializer.Deserialize(tagToDisplayNameJson, GameDataJsonContext.Default.DictionaryStringString) ?? [];
 			var tagToDisplayNameBuilder = ImmutableDictionary.CreateBuilder<Tag, string>();
 			var displayNameToTagBuilder = ImmutableDictionary.CreateBuilder<string, Tag>();
 			foreach (var kv in tagToDisplayNameDto)
@@ -30,7 +31,7 @@ namespace DontMissVulcan.Models.Data
 			var displayNameToTag = displayNameToTagBuilder.ToImmutable();
 
 			var operatorsJson = File.ReadAllText(operatorsJsonPath);
-			var operatorsDto = JsonSerializer.Deserialize<OperatorsDto>(operatorsJson) ?? new OperatorsDto();
+			var operatorsDto = JsonSerializer.Deserialize(operatorsJson, GameDataJsonContext.Default.OperatorsDto) ?? new OperatorsDto();
 			var operators = operatorsDto.Operators?.Select(operatorDto => new Operator
 			{
 				Name = operatorDto.Name ?? string.Empty,
@@ -42,19 +43,23 @@ namespace DontMissVulcan.Models.Data
 
 			return new GameData(tagToDisplayName, displayNameToTag, operators);
 		}
-
-		private class OperatorsDto
-		{
-			public List<OperatorDto>? Operators { get; set; }
-		}
-
-		private class OperatorDto
-		{
-			public string? Name { get; set; }
-			public int Rarity { get; set; }
-			public string? Class { get; set; }
-			public string? Position { get; set; }
-			public List<string>? Specializations { get; set; }
-		}
 	}
+
+	internal class OperatorsDto
+	{
+		public List<OperatorDto>? Operators { get; set; }
+	}
+
+	internal class OperatorDto
+	{
+		public string? Name { get; set; }
+		public int Rarity { get; set; }
+		public string? Class { get; set; }
+		public string? Position { get; set; }
+		public List<string>? Specializations { get; set; }
+	}
+
+	[JsonSerializable(typeof(Dictionary<string, string>))]
+	[JsonSerializable(typeof(OperatorsDto))]
+	internal partial class GameDataJsonContext : JsonSerializerContext { }
 }
