@@ -5,11 +5,11 @@ using System.IO;
 
 namespace DontMissVulcan.ViewModels.Main
 {
-	internal class MainViewModel
+	internal class RecruitmentViewModel
 	{
 		public TagSelectorViewModel TagSelector { get; }
 
-		public MainViewModel()
+		public RecruitmentViewModel()
 		{
 			var assetsDir = Path.Combine(AppContext.BaseDirectory, "Assets");
 			var gameData = GameDataLoader.Load(Path.Combine(assetsDir, "TagToDisplayName.json"), Path.Combine(assetsDir, "Operators.json"));
