@@ -59,6 +59,14 @@
     <PackageReference Include="System.Drawing.Common" Version="9.0.10" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Assets\Operators.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\TagToDisplayName.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Views\MainView.xml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

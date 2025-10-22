@@ -1,5 +1,7 @@
 ﻿using DontMissVulcan.Models.Data;
 using DontMissVulcan.ViewModels.TagSelection;
+using System;
+using System.IO;
 
 namespace DontMissVulcan.ViewModels.Main
 {
@@ -9,9 +11,8 @@ namespace DontMissVulcan.ViewModels.Main
 
 		public MainViewModel()
 		{
-			var gameData = GameDataLoader.Load(
-				@"C:\Users\raspb\Desktop\Work Space\DontMissVulcan\DontMissVulcan\Assets\TagToDisplayName.json",
-				@"C:\Users\raspb\Desktop\Work Space\DontMissVulcan\DontMissVulcan\Assets\Operators.json");
+			var assetsDir = Path.Combine(AppContext.BaseDirectory, "Assets");
+			var gameData = GameDataLoader.Load(Path.Combine(assetsDir, "TagToDisplayName.json"), Path.Combine(assetsDir, "Operators.json"));
 			TagSelector = new TagSelectorViewModel(gameData);
 		}
 	}
