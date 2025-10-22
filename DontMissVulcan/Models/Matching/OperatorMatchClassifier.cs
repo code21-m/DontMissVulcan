@@ -7,7 +7,7 @@ namespace DontMissVulcan.Models.Matching
 {
 	public static class OperatorMatchClassifier
 	{
-		public static MatchClassification ClassifyMatches(IEnumerable<OperatorMatch> matches)
+		public static OperatorMatchClassification ClassifyMatches(IEnumerable<OperatorMatch> matches)
 		{
 			var sixStarsOperators = new List<OperatorMatch>();
 			var fiveStarsOrHigherOperators = new List<OperatorMatch>();
@@ -44,7 +44,7 @@ namespace DontMissVulcan.Models.Matching
 					}
 				}
 			}
-			return new MatchClassification(sixStarsOperators, fiveStarsOrHigherOperators, fourStarsOrHigherOperators, robots);
+			return new OperatorMatchClassification(sixStarsOperators, fiveStarsOrHigherOperators, fourStarsOrHigherOperators, robots);
 		}
 	}
 }

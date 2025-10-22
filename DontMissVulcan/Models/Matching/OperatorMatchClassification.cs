@@ -2,7 +2,7 @@
 
 namespace DontMissVulcan.Models.Matching
 {
-	public sealed record MatchClassification(
+	public sealed record OperatorMatchClassification(
 			IEnumerable<OperatorMatch> SixStarsOperators,
 			IEnumerable<OperatorMatch> FiveStarsOrHigherOperators,
 			IEnumerable<OperatorMatch> FourStarsOrHigherOperators,
