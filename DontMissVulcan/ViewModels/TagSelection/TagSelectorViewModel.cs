@@ -11,12 +11,12 @@ namespace DontMissVulcan.ViewModels.TagSelection
 
 		public ObservableCollection<Tag> SelectedTags { get; } = [];
 
-		public TagSelectorViewModel()
+		public TagSelectorViewModel(GameData gameData)
 		{
-			TagCategories.Add(new TagCategoryViewModel("Qualification", Models.Domain.TagCategories.QualificationTags.Select(tag => new TagItemViewModel(tag, tag.ToString()))));
-			TagCategories.Add(new TagCategoryViewModel("Class", Models.Domain.TagCategories.ClassTags.Select(tag => new TagItemViewModel(tag, tag.ToString()))));
-			TagCategories.Add(new TagCategoryViewModel("Position", Models.Domain.TagCategories.PositionTags.Select(tag => new TagItemViewModel(tag, tag.ToString()))));
-			TagCategories.Add(new TagCategoryViewModel("Specialization", Models.Domain.TagCategories.SpecializationTags.Select(tag => new TagItemViewModel(tag, tag.ToString()))));
+			TagCategories.Add(new TagCategoryViewModel("レア", Models.Domain.TagCategories.QualificationTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
+			TagCategories.Add(new TagCategoryViewModel("職業", Models.Domain.TagCategories.ClassTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
+			TagCategories.Add(new TagCategoryViewModel("ポジション", Models.Domain.TagCategories.PositionTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
+			TagCategories.Add(new TagCategoryViewModel("専門", Models.Domain.TagCategories.SpecializationTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
 
 			foreach (var tagCategory in TagCategories)
 			{
