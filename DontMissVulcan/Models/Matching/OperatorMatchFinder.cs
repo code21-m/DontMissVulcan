@@ -14,7 +14,8 @@ namespace DontMissVulcan.Models.Matching
 
 		public IEnumerable<OperatorMatch> EnumerateMatches(IEnumerable<Tag> appearedTags)
 		{
-			for (var selectedTagCount = 1; selectedTagCount <= 3; selectedTagCount++)
+			const int maxSelectable = 3;
+			for (var selectedTagCount = 1; selectedTagCount <= maxSelectable; selectedTagCount++)
 			{
 				foreach (var selectedTags in appearedTags.EnumerateCombinations(selectedTagCount))
 				{
