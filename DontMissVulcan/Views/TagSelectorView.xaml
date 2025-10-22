@@ -12,13 +12,13 @@
     <ItemsControl ItemsSource="{x:Bind ViewModel.Categories}">
         <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="vm:TagCategoryViewModel">
-                <StackPanel Margin="8">
+                <StackPanel>
                     <TextBlock Text="{x:Bind Name}" />
 
-                    <GridView ItemsSource="{x:Bind Tags}">
+                    <GridView SelectionMode="None" IsItemClickEnabled="False" ItemsSource="{x:Bind Tags}">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="vm:TagItemViewModel">
-                                <ToggleButton Content="{x:Bind DisplayName}" IsChecked="{x:Bind IsSelected, Mode=TwoWay}" />
+                                <ToggleButton Width="120" Height="40" Content="{x:Bind DisplayName}" IsChecked="{x:Bind IsSelected, Mode=TwoWay}" />
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
