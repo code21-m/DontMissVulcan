@@ -10,17 +10,19 @@ namespace DontMissVulcan.Models.Recruitment.Matching
 	{
 		private readonly GameData _gameData = gameData;
 
-		public IEnumerable<OperatorMatch> EnumerateMatches(IEnumerable<Tag> appearedTags)
+		public IReadOnlyCollection<OperatorMatch> FindAllMathes(IEnumerable<Tag> appearedTags)
 		{
+			var matches = new List<OperatorMatch>();
 			const int maxSelectable = 3;
 			for (var selectedTagCount = 1; selectedTagCount <= maxSelectable; selectedTagCount++)
 			{
 				foreach (var selectedTags in appearedTags.EnumerateCombinations(selectedTagCount))
 				{
 					var matchingOperators = FindOperators(selectedTags);
-					yield return new OperatorMatch([.. selectedTags], matchingOperators);
+					matches.Add(new OperatorMatch([.. selectedTags], matchingOperators));
 				}
 			}
+			return matches;
 		}
 
 		private IReadOnlyCollection<Operator> FindOperators(IEnumerable<Tag> selectedTags)
