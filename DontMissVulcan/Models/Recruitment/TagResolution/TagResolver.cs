@@ -8,7 +8,7 @@ namespace DontMissVulcan.Models.Recruitment.TagResolution
 	{
 		private readonly GameData _gameData = gameData;
 
-		public HashSet<Tag> ResolveTags(IEnumerable<string> candidates)
+		public IReadOnlySet<Tag> ResolveTags(IEnumerable<string> candidates)
 		{
 			var tags = candidates
 				.Where(_gameData.DisplayNameToTag.ContainsKey)

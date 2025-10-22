@@ -30,7 +30,7 @@ namespace DontMissVulcan.Models.Platform
 			return new string(buffer[..copiedLength]);
 		}
 
-		public static IEnumerable<(IntPtr hWnd, string title)> EnumerateWindows()
+		public static IReadOnlyCollection<(IntPtr hWnd, string title)> GetAllWindows()
 		{
 			var windows = new List<(IntPtr, string)>();
 			PInvoke.EnumWindows((hWnd, lParam) =>

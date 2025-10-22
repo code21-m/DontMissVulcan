@@ -18,12 +18,12 @@ namespace DontMissVulcan.Models.Recruitment.Matching
 				foreach (var selectedTags in appearedTags.EnumerateCombinations(selectedTagCount))
 				{
 					var matchingOperators = FindOperators(selectedTags);
-					yield return new OperatorMatch(selectedTags, matchingOperators);
+					yield return new OperatorMatch([.. selectedTags], matchingOperators);
 				}
 			}
 		}
 
-		private IEnumerable<Operator> FindOperators(IEnumerable<Tag> selectedTags)
+		private IReadOnlyCollection<Operator> FindOperators(IEnumerable<Tag> selectedTags)
 		{
 			var matchingOperators = _gameData.Operators.AsEnumerable();
 			if (!selectedTags.Contains(Tag.SeniorOperator))
@@ -49,7 +49,7 @@ namespace DontMissVulcan.Models.Recruitment.Matching
 					matchingOperators = matchingOperators.Where(o => o.Specializations.Contains(tag));
 				}
 			}
-			return matchingOperators;
+			return [.. matchingOperators];
 		}
 
 		private static int QualificationToRarity(Tag qualificationTag)

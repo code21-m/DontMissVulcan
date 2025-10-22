@@ -3,9 +3,9 @@
 namespace DontMissVulcan.Models.Recruitment.Matching
 {
 	public sealed record OperatorMatchClassification(
-			IEnumerable<OperatorMatch> SixStarsOperators,
-			IEnumerable<OperatorMatch> FiveStarsOrHigherOperators,
-			IEnumerable<OperatorMatch> FourStarsOrHigherOperators,
-			IEnumerable<OperatorMatch> Robots
+			IReadOnlyCollection<OperatorMatch> SixStarsOperators,
+			IReadOnlyCollection<OperatorMatch> FiveStarsOrHigherOperators,
+			IReadOnlyCollection<OperatorMatch> FourStarsOrHigherOperators,
+			IReadOnlyCollection<OperatorMatch> Robots
 		);
 }

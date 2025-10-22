@@ -13,14 +13,14 @@ namespace DontMissVulcan.Models.Platform
 	{
 		private readonly OcrEngine _ocrEngine = OcrEngine.TryCreateFromLanguage(language);
 
-		public async Task<IEnumerable<string>> RecognizeAsync(SoftwareBitmap softwareBitmap)
+		public async Task<IReadOnlyList<string>> RecognizeAsync(SoftwareBitmap softwareBitmap)
 		{
 			var ocrResult = await _ocrEngine.RecognizeAsync(softwareBitmap);
 			var lines = ocrResult.Lines;
 			var lineTexts = _ocrEngine.RecognizerLanguage.IsSpaceDelimited()
 				? lines.Select(line => line.Text.Trim())
 				: lines.Select(line => line.Words).Select(words => string.Concat(words.Select(word => word.Text).Where(text => !string.IsNullOrWhiteSpace(text))));
-			return lineTexts;
+			return [.. lineTexts];
 		}
 	}
 }

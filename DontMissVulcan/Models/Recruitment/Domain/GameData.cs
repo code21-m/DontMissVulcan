@@ -4,9 +4,9 @@ using System.Collections.Immutable;
 namespace DontMissVulcan.Models.Recruitment.Domain
 {
 	public class GameData(
-		IReadOnlyDictionary<Tag, string> tagToDisplayName,
-		IReadOnlyDictionary<string, Tag> displayNameToTag,
-		IReadOnlyList<Operator> operators)
+		IDictionary<Tag, string> tagToDisplayName,
+		IDictionary<string, Tag> displayNameToTag,
+		IEnumerable<Operator> operators)
 	{
 		private readonly ImmutableDictionary<Tag, string> _tagToDisplayName = tagToDisplayName switch
 		{
