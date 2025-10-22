@@ -1,12 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using DontMissVulcan.Models.Domain;
+﻿using DontMissVulcan.Models.Domain;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.ComponentModel;
+using System.Linq;
 
-namespace DontMissVulcan.ViewModels
+namespace DontMissVulcan.ViewModels.TagSelection
 {
-	public partial class TagSelectorViewModel : ObservableObject
+	internal class TagSelectorViewModel
 	{
 
 		public ObservableCollection<TagCategoryViewModel> Categories { get; } = [];
@@ -46,15 +45,16 @@ namespace DontMissVulcan.ViewModels
 
 			if (changed.IsSelected)
 			{
-				var totalSelected = Categories.SelectMany(c => c.Tags).Count(t => t.IsSelected);
-				if (totalSelected > 5)
+				if (SelectedTags.Count < 5)
+				{
+					SelectedTags.Add(changed.Tag);
+				}
+				else
 				{
 					_isHandlingTagSelectionChange = true;
 					changed.IsSelected = false;
 					_isHandlingTagSelectionChange = false;
-					return;
 				}
-				SelectedTags.Add(changed.Tag);
 			}
 			else
 			{

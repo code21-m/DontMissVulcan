@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Views\TagSelectorView.xaml" />
+    <None Remove="Views\MainView.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,7 +59,7 @@
     <PackageReference Include="System.Drawing.Common" Version="9.0.10" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\TagSelectorView.xaml">
+    <Page Update="Views\MainView.xml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

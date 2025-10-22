@@ -14,5 +14,7 @@
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
-    <views:TagSelectorView />
+    <Grid>
+        <views:MainView />
+    </Grid>
 </Window>
