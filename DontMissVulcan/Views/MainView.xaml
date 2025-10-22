@@ -9,16 +9,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.Categories}">
+    <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.TagCategories}">
         <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="tagselection:TagCategoryViewModel">
                 <StackPanel>
                     <TextBlock Text="{x:Bind Name}" />
 
-                    <GridView SelectionMode="None" IsItemClickEnabled="False" ItemsSource="{x:Bind Tags}">
+                    <GridView SelectionMode="None" IsItemClickEnabled="False" ItemsSource="{x:Bind TagItems}">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="tagselection:TagItemViewModel">
-                                <ToggleButton Width="120" Height="40" Content="{x:Bind DisplayName}" IsChecked="{x:Bind IsSelected, Mode=TwoWay}" />
+                                <ToggleButton Width="120" Height="40"
+                                              Content="{x:Bind DisplayName}"
+                                              IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
+                                              IsEnabled="{x:Bind IsSelectable, Mode=TwoWay}" />
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
