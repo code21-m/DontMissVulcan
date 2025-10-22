@@ -13,16 +13,16 @@ namespace DontMissVulcan.ViewModels.TagSelection
 
 		public TagSelectorViewModel()
 		{
-			TagCategories.Add(new TagCategoryViewModel("Qualification", Models.Domain.TagCategories.QualificationTags.Select(t => new TagItemViewModel(t, t.ToString()))));
-			TagCategories.Add(new TagCategoryViewModel("Class", Models.Domain.TagCategories.ClassTags.Select(t => new TagItemViewModel(t, t.ToString()))));
-			TagCategories.Add(new TagCategoryViewModel("Position", Models.Domain.TagCategories.PositionTags.Select(t => new TagItemViewModel(t, t.ToString()))));
-			TagCategories.Add(new TagCategoryViewModel("Specialization", Models.Domain.TagCategories.SpecializationTags.Select(t => new TagItemViewModel(t, t.ToString()))));
+			TagCategories.Add(new TagCategoryViewModel("Qualification", Models.Domain.TagCategories.QualificationTags.Select(tag => new TagItemViewModel(tag, tag.ToString()))));
+			TagCategories.Add(new TagCategoryViewModel("Class", Models.Domain.TagCategories.ClassTags.Select(tag => new TagItemViewModel(tag, tag.ToString()))));
+			TagCategories.Add(new TagCategoryViewModel("Position", Models.Domain.TagCategories.PositionTags.Select(tag => new TagItemViewModel(tag, tag.ToString()))));
+			TagCategories.Add(new TagCategoryViewModel("Specialization", Models.Domain.TagCategories.SpecializationTags.Select(tag => new TagItemViewModel(tag, tag.ToString()))));
 
-			foreach (var category in TagCategories)
+			foreach (var tagCategory in TagCategories)
 			{
-				foreach (var tag in category.TagItems)
+				foreach (var tagItem in tagCategory.TagItems)
 				{
-					tag.PropertyChanged += TagSelectionChanged;
+					tagItem.PropertyChanged += TagSelectionChanged;
 				}
 			}
 		}
