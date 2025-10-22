@@ -1,4 +1,4 @@
-﻿namespace DontMissVulcan.Models.Domain
+﻿namespace DontMissVulcan.Models.Recruitment.Domain
 {
 	public enum Tag
 	{

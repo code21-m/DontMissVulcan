@@ -1,9 +1,9 @@
-﻿using DontMissVulcan.Models.Domain;
+﻿using DontMissVulcan.Models.Recruitment.Domain;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
-namespace DontMissVulcan.ViewModels.TagSelection
+namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 {
 	internal class TagSelectorViewModel
 	{
@@ -13,10 +13,10 @@ namespace DontMissVulcan.ViewModels.TagSelection
 
 		public TagSelectorViewModel(GameData gameData)
 		{
-			TagCategories.Add(new TagCategoryViewModel("レア", Models.Domain.TagCategories.QualificationTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
-			TagCategories.Add(new TagCategoryViewModel("職業", Models.Domain.TagCategories.ClassTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
-			TagCategories.Add(new TagCategoryViewModel("ポジション", Models.Domain.TagCategories.PositionTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
-			TagCategories.Add(new TagCategoryViewModel("専門", Models.Domain.TagCategories.SpecializationTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
+			TagCategories.Add(new TagCategoryViewModel("レア", Models.Recruitment.Domain.TagCategories.QualificationTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
+			TagCategories.Add(new TagCategoryViewModel("職業", Models.Recruitment.Domain.TagCategories.ClassTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
+			TagCategories.Add(new TagCategoryViewModel("ポジション", Models.Recruitment.Domain.TagCategories.PositionTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
+			TagCategories.Add(new TagCategoryViewModel("専門", Models.Recruitment.Domain.TagCategories.SpecializationTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
 
 			foreach (var tagCategory in TagCategories)
 			{

@@ -1,5 +1,6 @@
 ﻿using DontMissVulcan.Models.Data.Dto;
-using DontMissVulcan.Models.Domain;
+using DontMissVulcan.Models.Recruitment.Data.Dto;
+using DontMissVulcan.Models.Recruitment.Domain;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -7,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 
-namespace DontMissVulcan.Models.Data
+namespace DontMissVulcan.Models.Recruitment.Data
 {
 	public static class GameDataLoader
 	{

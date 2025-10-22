@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DontMissVulcan.Models.Recruitment.Data.Dto;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace DontMissVulcan.Models.Data.Dto

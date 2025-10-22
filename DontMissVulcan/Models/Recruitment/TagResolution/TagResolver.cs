@@ -1,14 +1,14 @@
-﻿using DontMissVulcan.Models.Domain;
+﻿using DontMissVulcan.Models.Recruitment.Domain;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DontMissVulcan.Models.Recognition
+namespace DontMissVulcan.Models.Recruitment.TagResolution
 {
-	public class TagMatcher(GameData gameData)
+	public class TagResolver(GameData gameData)
 	{
 		private readonly GameData _gameData = gameData;
 
-		public HashSet<Tag> MatchTags(IEnumerable<string> candidates)
+		public HashSet<Tag> ResolveTags(IEnumerable<string> candidates)
 		{
 			var tags = candidates
 				.Where(_gameData.DisplayNameToTag.ContainsKey)

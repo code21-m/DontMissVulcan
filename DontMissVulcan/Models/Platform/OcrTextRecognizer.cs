@@ -7,9 +7,9 @@ using Windows.Globalization;
 using Windows.Graphics.Imaging;
 using Windows.Media.Ocr;
 
-namespace DontMissVulcan.Models.Recognition
+namespace DontMissVulcan.Models.Platform
 {
-	public class OcrLineRecognizer(Language language)
+	public class OcrTextRecognizer(Language language)
 	{
 		private readonly OcrEngine _ocrEngine = OcrEngine.TryCreateFromLanguage(language);
 

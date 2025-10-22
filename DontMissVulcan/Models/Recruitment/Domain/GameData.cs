@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace DontMissVulcan.Models.Domain
+namespace DontMissVulcan.Models.Recruitment.Domain
 {
 	public class GameData(
 		IReadOnlyDictionary<Tag, string> tagToDisplayName,

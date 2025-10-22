@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using DontMissVulcan.Models.Domain;
+using DontMissVulcan.Models.Recruitment.Domain;
 
-namespace DontMissVulcan.ViewModels.TagSelection
+namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 {
 	internal partial class TagItemViewModel(Tag tag, string displayName) : ObservableObject
 	{

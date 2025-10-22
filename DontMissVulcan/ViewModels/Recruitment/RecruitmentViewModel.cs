@@ -1,5 +1,5 @@
-﻿using DontMissVulcan.Models.Data;
-using DontMissVulcan.ViewModels.TagSelection;
+﻿using DontMissVulcan.Models.Recruitment.Data;
+using DontMissVulcan.ViewModels.Recruitment.TagSelection;
 using System;
 using System.IO;
 

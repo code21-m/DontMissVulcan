@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DontMissVulcan.Models.Domain
+namespace DontMissVulcan.Models.Recruitment.Domain
 {
 	public class Operator
 	{

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using System.Collections.Generic;
 
-namespace DontMissVulcan.Models.Domain
+namespace DontMissVulcan.Models.Recruitment.Domain
 {
 	public static class TagCategories
 	{

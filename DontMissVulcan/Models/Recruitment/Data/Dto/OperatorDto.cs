@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DontMissVulcan.Models.Data.Dto
+namespace DontMissVulcan.Models.Recruitment.Data.Dto
 {
 	internal class OperatorDto
 	{

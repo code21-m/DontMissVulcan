@@ -1,9 +1,9 @@
-﻿using DontMissVulcan.Models.Domain;
+﻿using DontMissVulcan.Models.Recruitment.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DontMissVulcan.Models.Matching
+namespace DontMissVulcan.Models.Recruitment.Matching
 {
 	public static class OperatorMatchClassifier
 	{

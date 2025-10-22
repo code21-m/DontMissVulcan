@@ -1,7 +1,7 @@
-﻿using DontMissVulcan.Models.Domain;
+﻿using DontMissVulcan.Models.Recruitment.Domain;
 using System.Collections.Generic;
 
-namespace DontMissVulcan.Models.Matching
+namespace DontMissVulcan.Models.Recruitment.Matching
 {
 	public sealed record OperatorMatch(IEnumerable<Tag> Tags, IEnumerable<Operator> Operators);
 }
