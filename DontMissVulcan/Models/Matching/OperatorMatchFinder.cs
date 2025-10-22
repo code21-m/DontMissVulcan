@@ -10,8 +10,6 @@ namespace DontMissVulcan.Models.Matching
 	{
 		private readonly GameData _gameData = gameData;
 
-		public sealed record OperatorMatch(IEnumerable<Tag> Tags, IEnumerable<Operator> Operators);
-
 		public IEnumerable<OperatorMatch> EnumerateMatches(IEnumerable<Tag> appearedTags)
 		{
 			const int maxSelectable = 3;

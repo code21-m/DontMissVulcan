@@ -2,19 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static DontMissVulcan.Models.Matching.OperatorMatchFinder;
 
 namespace DontMissVulcan.Models.Matching
 {
 	public static class OperatorMatchClassifier
 	{
-		public sealed record MatchClassification(
-			IEnumerable<OperatorMatch> SixStarsOperators,
-			IEnumerable<OperatorMatch> FiveStarsOrHigherOperators,
-			IEnumerable<OperatorMatch> FourStarsOrHigherOperators,
-			IEnumerable<OperatorMatch> Robots
-		);
-
 		public static MatchClassification ClassifyMatches(IEnumerable<OperatorMatch> matches)
 		{
 			var sixStarsOperators = new List<OperatorMatch>();
