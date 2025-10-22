@@ -1,15 +1,14 @@
 ﻿using DontMissVulcan.Models.Domain;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 
 namespace DontMissVulcan.ViewModels.TagSelection
 {
 	internal class TagSelectorViewModel
 	{
-
 		public ObservableCollection<TagCategoryViewModel> TagCategories { get; } = [];
+
 		public ObservableCollection<Tag> SelectedTags { get; } = [];
 
 		public TagSelectorViewModel()
@@ -48,7 +47,6 @@ namespace DontMissVulcan.ViewModels.TagSelection
 					var unselectedTagItems = TagCategories
 						.SelectMany(tagCategory => tagCategory.TagItems)
 						.Where(tagItem => !tagItem.IsSelected);
-					Debug.WriteLine(unselectedTagItems.Count());
 					foreach (var tag in unselectedTagItems)
 					{
 						tag.IsSelectable = false;
@@ -63,7 +61,6 @@ namespace DontMissVulcan.ViewModels.TagSelection
 					var otherUnselectedTagItems = TagCategories
 						.SelectMany(tagCategory => tagCategory.TagItems)
 						.Where(tagItem => !tagItem.IsSelected && tagItem != changedTagItem);
-					Debug.WriteLine(otherUnselectedTagItems.Count());
 					foreach (var tag in otherUnselectedTagItems)
 					{
 						tag.IsSelectable = true;
