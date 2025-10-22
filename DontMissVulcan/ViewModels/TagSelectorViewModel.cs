@@ -7,7 +7,7 @@ namespace DontMissVulcan.ViewModels
 {
 	public partial class TagSelectorViewModel : ObservableObject
 	{
-		public ObservableCollection<TagCategoryViewModel> Categories { get; } = new();
+		public ObservableCollection<TagCategoryViewModel> Categories { get; } = [];
 
 		public TagSelectorViewModel()
 		{

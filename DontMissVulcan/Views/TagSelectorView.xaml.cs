@@ -5,7 +5,7 @@ namespace DontMissVulcan.Views
 {
 	public sealed partial class TagSelectorView : UserControl
 	{
-		public TagSelectorViewModel ViewModel { get; }= new TagSelectorViewModel();
+		public TagSelectorViewModel ViewModel { get; } = new();
 
 		public TagSelectorView()
 		{
