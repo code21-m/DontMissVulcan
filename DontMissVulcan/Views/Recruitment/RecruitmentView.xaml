@@ -5,30 +5,54 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:DontMissVulcan.Views.Recruitment"
     xmlns:tagselection="using:DontMissVulcan.ViewModels.Recruitment.TagSelection"
+    xmlns:matching="using:DontMissVulcan.ViewModels.Recruitment.Matching"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid>
-        <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.TagCategories}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate x:DataType="tagselection:TagCategoryViewModel">
-                    <StackPanel>
-                        <TextBlock Text="{x:Bind Name}" />
+        <StackPanel>
+            <TextBlock Text="タグ選択" />
+            <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.TagCategories}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="tagselection:TagCategoryViewModel">
+                        <StackPanel>
+                            <TextBlock Text="{x:Bind Name}" />
 
-                        <GridView SelectionMode="None" IsItemClickEnabled="False" ItemsSource="{x:Bind TagItems}">
-                            <GridView.ItemTemplate>
-                                <DataTemplate x:DataType="tagselection:TagItemViewModel">
-                                    <ToggleButton Width="120" Height="40"
+                            <GridView SelectionMode="None" ItemsSource="{x:Bind TagItems}">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate x:DataType="tagselection:TagItemViewModel">
+                                        <ToggleButton Width="100" Height="40"
                                               Content="{x:Bind DisplayName}"
                                               IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
                                               IsEnabled="{x:Bind IsSelectable, Mode=TwoWay}" />
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <TextBlock Text="マッチング結果" />
+            <ItemsControl ItemsSource="{x:Bind ViewModel.MatchResults.MatchGroups}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="matching:MatchGroupViewModel">
+                        <StackPanel>
+                            <TextBlock Text="{x:Bind Name}" />
+
+                            <ListView SelectionMode="None" ItemsSource="{x:Bind MatchItems}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="matching:MatchItemViewModel">
+                                        <TextBlock Text="{x:Bind MatchDisplay}"
+                                                   TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
     </Grid>
 </UserControl>

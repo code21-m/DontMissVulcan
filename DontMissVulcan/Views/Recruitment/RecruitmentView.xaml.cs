@@ -1,4 +1,4 @@
-using DontMissVulcan.ViewModels.Main;
+using DontMissVulcan.ViewModels.Recruitment;
 using Microsoft.UI.Xaml.Controls;
 
 namespace DontMissVulcan.Views.Recruitment
