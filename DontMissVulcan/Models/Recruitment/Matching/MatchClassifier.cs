@@ -15,7 +15,7 @@ namespace DontMissVulcan.Models.Recruitment.Matching
 			var robots = new List<Match>();
 			foreach (var match in matches)
 			{
-				if (!match.Operators.Any())
+				if (match.Operators.Count == 0)
 				{
 					continue;
 				}
