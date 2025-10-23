@@ -6,20 +6,20 @@ using System.Linq;
 
 namespace DontMissVulcan.Models.Recruitment.Matching
 {
-	public class OperatorMatchFinder(GameData gameData)
+	public class MatchFinder(GameData gameData)
 	{
 		private readonly GameData _gameData = gameData;
 
-		public IReadOnlyCollection<OperatorMatch> FindAllMathes(IEnumerable<Tag> appearedTags)
+		public IReadOnlyCollection<Match> FindAllMathes(IEnumerable<Tag> appearedTags)
 		{
-			var matches = new List<OperatorMatch>();
+			var matches = new List<Match>();
 			const int maxSelectable = 3;
 			for (var selectedTagCount = 1; selectedTagCount <= maxSelectable; selectedTagCount++)
 			{
 				foreach (var selectedTags in appearedTags.EnumerateCombinations(selectedTagCount))
 				{
 					var matchingOperators = FindOperators(selectedTags);
-					matches.Add(new OperatorMatch([.. selectedTags], matchingOperators));
+					matches.Add(new Match([.. selectedTags], matchingOperators));
 				}
 			}
 			return matches;

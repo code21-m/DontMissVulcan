@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace DontMissVulcan.Models.Recruitment.Matching
 {
-	public static class OperatorMatchClassifier
+	public static class MatchClassifier
 	{
-		public static OperatorMatchClassification ClassifyMatches(IEnumerable<OperatorMatch> matches)
+		public static MatchClassification ClassifyMatches(IEnumerable<Match> matches)
 		{
-			var sixStarsOperators = new List<OperatorMatch>();
-			var fiveStarsOrHigherOperators = new List<OperatorMatch>();
-			var fourStarsOrHigherOperators = new List<OperatorMatch>();
-			var robots = new List<OperatorMatch>();
+			var sixStarsOperators = new List<Match>();
+			var fiveStarsOrHigherOperators = new List<Match>();
+			var fourStarsOrHigherOperators = new List<Match>();
+			var robots = new List<Match>();
 			foreach (var match in matches)
 			{
 				if (!match.Operators.Any())
@@ -44,7 +44,7 @@ namespace DontMissVulcan.Models.Recruitment.Matching
 					}
 				}
 			}
-			return new OperatorMatchClassification(sixStarsOperators, fiveStarsOrHigherOperators, fourStarsOrHigherOperators, robots);
+			return new MatchClassification(sixStarsOperators, fiveStarsOrHigherOperators, fourStarsOrHigherOperators, robots);
 		}
 	}
 }
