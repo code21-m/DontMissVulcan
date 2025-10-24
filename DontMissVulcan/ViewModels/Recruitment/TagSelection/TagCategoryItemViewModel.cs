@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 {
-	internal class TagCategoryViewModel(string name, IEnumerable<TagItemViewModel> tags) 
+	internal class TagCategoryItemViewModel(string name, IEnumerable<TagItemViewModel> tags) 
 	{
 		public string Name { get; } = name;
 

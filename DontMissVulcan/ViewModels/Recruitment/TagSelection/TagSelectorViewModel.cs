@@ -1,6 +1,6 @@
 ﻿using DontMissVulcan.Models.Recruitment.Domain;
+using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
@@ -8,22 +8,22 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 {
 	internal class TagSelectorViewModel
 	{
-		public ObservableCollection<TagCategoryViewModel> TagCategories { get; } = [];
+		public ObservableCollection<TagItemViewModel> TagItems { get; } = [];
 
-		public ObservableCollection<Tag> SelectedTags { get; } = [];
+		public ObservableCollection<TagCategoryItemViewModel> TagCategoryItems { get; } = [];
 
 		public TagSelectorViewModel(GameData gameData)
 		{
-			TagCategories.Add(new TagCategoryViewModel("レア", Models.Recruitment.Domain.TagCategories.QualificationTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
-			TagCategories.Add(new TagCategoryViewModel("職業", Models.Recruitment.Domain.TagCategories.ClassTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
-			TagCategories.Add(new TagCategoryViewModel("ポジション", Models.Recruitment.Domain.TagCategories.PositionTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
-			TagCategories.Add(new TagCategoryViewModel("専門", Models.Recruitment.Domain.TagCategories.SpecializationTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
-
-			foreach (var tagItem in TagCategories.SelectMany(tagCategory => tagCategory.TagItems))
+			foreach (Tag tag in Enum.GetValues(typeof(Tag)))
 			{
+				var tagItem = new TagItemViewModel(tag, gameData.TagToDisplayName[tag]);
 				tagItem.PropertyChanged += TagItemIsSelectedChanged;
+				TagItems.Add(tagItem);
 			}
-			SelectedTags.CollectionChanged += SelectedTagsChanged;
+			TagCategoryItems.Add(new("レア", TagItems.Where(tagItem => TagCategories.QualificationTags.Contains(tagItem.Tag))));
+			TagCategoryItems.Add(new("職業", TagItems.Where(tagItem => TagCategories.ClassTags.Contains(tagItem.Tag))));
+			TagCategoryItems.Add(new("ポジション", TagItems.Where(tagItem => TagCategories.PositionTags.Contains(tagItem.Tag))));
+			TagCategoryItems.Add(new("専門", TagItems.Where(tagItem => TagCategories.SpecializationTags.Contains(tagItem.Tag))));
 		}
 
 		private void TagItemIsSelectedChanged(object? sender, PropertyChangedEventArgs e)
@@ -37,39 +37,15 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 				return;
 			}
 
-			if (changedTagItem.IsSelected && !SelectedTags.Contains(changedTagItem.Tag))
-			{
-				SelectedTags.Add(changedTagItem.Tag);
-			}
-			else
-			{
-				SelectedTags.Remove(changedTagItem.Tag);
-			}
-		}
-
-		private void SelectedTagsChanged(object? sender, NotifyCollectionChangedEventArgs e)
-		{
-			var tagItems = TagCategories.SelectMany(tagCategory => tagCategory.TagItems);
-
-			foreach (var tagItem in tagItems.Where(tagItem => SelectedTags.Contains(tagItem.Tag)))
-			{
-				tagItem.IsSelected = true;
-			}
-
 			const int maxSelectable = 5;
-			if (SelectedTags.Count >= maxSelectable)
+			var selectedTagItems = TagItems.Where(tagItem => tagItem.IsSelected);
+			var unselectedTagItems = TagItems.Where(tagItem => !tagItem.IsSelected);
+			var isSelctable = selectedTagItems.Count() < maxSelectable;
+			foreach (var tagItem in unselectedTagItems)
 			{
-				var unselectedTagItems = tagItems.Where(tagItem => !tagItem.IsSelected);
-				foreach (var tag in unselectedTagItems)
+				if (tagItem.IsSelectable != isSelctable)
 				{
-					tag.IsSelectable = false;
-				}
-			}
-			else
-			{
-				foreach (var tag in tagItems)
-				{
-					tag.IsSelectable = true;
+					tagItem.IsSelectable = isSelctable;
 				}
 			}
 		}

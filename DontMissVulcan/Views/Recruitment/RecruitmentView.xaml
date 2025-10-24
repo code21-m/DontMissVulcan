@@ -13,9 +13,9 @@
     <Grid>
         <StackPanel>
             <TextBlock Text="タグ選択" />
-            <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.TagCategories}">
+            <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.TagCategoryItems}">
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="tagselection:TagCategoryViewModel">
+                    <DataTemplate x:DataType="tagselection:TagCategoryItemViewModel">
                         <StackPanel>
                             <TextBlock Text="{x:Bind Name}" />
 

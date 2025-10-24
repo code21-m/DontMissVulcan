@@ -4,7 +4,9 @@ using DontMissVulcan.ViewModels.Recruitment.Matching;
 using DontMissVulcan.ViewModels.Recruitment.TagSelection;
 using System;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 
 namespace DontMissVulcan.ViewModels.Recruitment
 {
@@ -26,12 +28,21 @@ namespace DontMissVulcan.ViewModels.Recruitment
 			TagSelector = new TagSelectorViewModel(gameData);
 			MatchResults = new MatchResultsViewModel(gameData);
 
-			TagSelector.SelectedTags.CollectionChanged += SelectedTagsChanged;
+			foreach (var tagItem in TagSelector.TagItems)
+			{
+				tagItem.PropertyChanged += TagItemIsSelectedChanged;
+			}
 		}
 
-		private void SelectedTagsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		private void TagItemIsSelectedChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			var matches = _matchFinder.FindAllMathes(TagSelector.SelectedTags);
+			if (e.PropertyName != nameof(TagItemViewModel.IsSelected))
+			{
+				return;
+			}
+
+			var selectedTags = TagSelector.TagItems.Where(tagItem => tagItem.IsSelected).Select(tagItem => tagItem.Tag);
+			var matches = _matchFinder.FindAllMathes(selectedTags);
 			var matchClassification = MatchClassifier.ClassifyMatches(matches);
 			MatchResults.SetResults(matchClassification);
 		}
