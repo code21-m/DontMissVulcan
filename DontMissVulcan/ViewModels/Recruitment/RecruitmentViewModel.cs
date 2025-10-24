@@ -2,6 +2,7 @@
 using DontMissVulcan.Models.Recruitment.Matching;
 using DontMissVulcan.ViewModels.Recruitment.Matching;
 using DontMissVulcan.ViewModels.Recruitment.TagSelection;
+using DontMissVulcan.ViewModels.Recruitment.WindowSelection;
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -12,6 +13,8 @@ namespace DontMissVulcan.ViewModels.Recruitment
 {
 	internal class RecruitmentViewModel
 	{
+		public WindowSelectorViewModel WindowSelector { get; }
+
 		public TagSelectorViewModel TagSelector { get; }
 
 		public MatchResultsViewModel MatchResults { get; }
@@ -25,6 +28,7 @@ namespace DontMissVulcan.ViewModels.Recruitment
 
 			_matchFinder = new(gameData);
 
+			WindowSelector = new();
 			TagSelector = new(gameData);
 			MatchResults = new(gameData);
 

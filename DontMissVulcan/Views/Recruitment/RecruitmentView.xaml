@@ -12,6 +12,17 @@
 
     <Grid>
         <StackPanel>
+            <TextBlock Text="ウィンドウ選択" />
+            <StackPanel Orientation="Horizontal">
+                <Button Content="更新" Command="{x:Bind ViewModel.WindowSelector.UpdateWindowsCommand}" />
+                <ComboBox Width="300"
+                    ItemsSource="{x:Bind ViewModel.WindowSelector.WindowNames}"
+                    SelectedIndex="{x:Bind ViewModel.WindowSelector.SelectedWindowIndex, Mode=TwoWay}">
+                </ComboBox>
+
+                <Button Content="3秒後にアクティブなウィンドウを取得" Command="{x:Bind ViewModel.WindowSelector.GetForegroundWindowAfter3sCommand}" />
+            </StackPanel>
+
             <TextBlock Text="タグ選択" />
             <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.TagCategoryItems}">
                 <ItemsControl.ItemTemplate>
@@ -19,13 +30,16 @@
                         <StackPanel>
                             <TextBlock Text="{x:Bind Name}" />
 
-                            <GridView SelectionMode="None" ItemsSource="{x:Bind TagItems}">
+                            <GridView
+                                SelectionMode="None"
+                                IsItemClickEnabled="False"
+                                ItemsSource="{x:Bind TagItems}">
                                 <GridView.ItemTemplate>
                                     <DataTemplate x:DataType="tagselection:TagItemViewModel">
                                         <ToggleButton Width="100" Height="40"
                                               Content="{x:Bind DisplayName}"
                                               IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
-                                              IsEnabled="{x:Bind IsSelectable, Mode=TwoWay}" />
+                                              IsEnabled="{x:Bind IsSelectable, Mode=OneWay}" />
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
                             </GridView>
@@ -41,7 +55,10 @@
                         <StackPanel>
                             <TextBlock Text="{x:Bind Name}" />
 
-                            <ListView SelectionMode="None" ItemsSource="{x:Bind MatchItems}">
+                            <ListView
+                                SelectionMode="None"
+                                IsItemClickEnabled="False"
+                                ItemsSource="{x:Bind MatchItems}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="matching:MatchItemViewModel">
                                         <TextBlock Text="{x:Bind MatchDisplay}"
