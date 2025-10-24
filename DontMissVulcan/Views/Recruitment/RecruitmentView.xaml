@@ -15,6 +15,7 @@
             <TextBlock Text="ウィンドウ選択" />
             <StackPanel Orientation="Horizontal">
                 <Button Content="更新" Command="{x:Bind ViewModel.WindowSelector.UpdateWindowsCommand}" />
+                
                 <ComboBox Width="300"
                     ItemsSource="{x:Bind ViewModel.WindowSelector.WindowNames}"
                     SelectedIndex="{x:Bind ViewModel.WindowSelector.SelectedWindowIndex, Mode=TwoWay}">
