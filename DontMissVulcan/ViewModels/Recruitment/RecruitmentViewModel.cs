@@ -23,10 +23,10 @@ namespace DontMissVulcan.ViewModels.Recruitment
 			var assetsDir = Path.Combine(AppContext.BaseDirectory, "Assets");
 			var gameData = GameDataLoader.Load(Path.Combine(assetsDir, "TagToDisplayName.json"), Path.Combine(assetsDir, "Operators.json"));
 
-			_matchFinder = new MatchFinder(gameData);
+			_matchFinder = new(gameData);
 
-			TagSelector = new TagSelectorViewModel(gameData);
-			MatchResults = new MatchResultsViewModel(gameData);
+			TagSelector = new(gameData);
+			MatchResults = new(gameData);
 
 			foreach (var tagItem in TagSelector.TagItems)
 			{
