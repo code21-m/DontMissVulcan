@@ -8,12 +8,12 @@ namespace DontMissVulcan.Models.Recruitment.TagResolution
 	{
 		private readonly GameData _gameData = gameData;
 
-		public IReadOnlySet<Tag> ResolveTags(IEnumerable<string> candidates)
+		public IReadOnlyList<Tag> ResolveTags(IEnumerable<string> candidates)
 		{
 			var tags = candidates
 				.Where(_gameData.DisplayNameToTag.ContainsKey)
 				.Select(text => _gameData.DisplayNameToTag[text])
-				.ToHashSet();
+				.ToList();
 			return tags;
 		}
 	}

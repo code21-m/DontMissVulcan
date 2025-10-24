@@ -1,5 +1,9 @@
-﻿using DontMissVulcan.Models.Recruitment.Data;
+﻿using CommunityToolkit.Mvvm.Input;
+using DontMissVulcan.Models.Extensions;
+using DontMissVulcan.Models.Platform;
+using DontMissVulcan.Models.Recruitment.Data;
 using DontMissVulcan.Models.Recruitment.Matching;
+using DontMissVulcan.Models.Recruitment.TagResolution;
 using DontMissVulcan.ViewModels.Recruitment.Matching;
 using DontMissVulcan.ViewModels.Recruitment.TagSelection;
 using DontMissVulcan.ViewModels.Recruitment.WindowSelection;
@@ -8,16 +12,21 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DontMissVulcan.ViewModels.Recruitment
 {
-	internal class RecruitmentViewModel
+	internal partial class RecruitmentViewModel
 	{
 		public WindowSelectorViewModel WindowSelector { get; }
 
 		public TagSelectorViewModel TagSelector { get; }
 
 		public MatchResultsViewModel MatchResults { get; }
+
+		private readonly OcrTextRecognizer _ocrTextRecognizer;
+
+		private readonly TagResolver _tagResolver;
 
 		private readonly MatchFinder _matchFinder;
 
@@ -26,6 +35,8 @@ namespace DontMissVulcan.ViewModels.Recruitment
 			var assetsDir = Path.Combine(AppContext.BaseDirectory, "Assets");
 			var gameData = GameDataLoader.Load(Path.Combine(assetsDir, "TagToDisplayName.json"), Path.Combine(assetsDir, "Operators.json"));
 
+			_ocrTextRecognizer = new(new("ja-JP"));
+			_tagResolver = new(gameData);
 			_matchFinder = new(gameData);
 
 			WindowSelector = new();
@@ -38,6 +49,22 @@ namespace DontMissVulcan.ViewModels.Recruitment
 			}
 		}
 
+		[RelayCommand]
+		public async Task RecognizeTags()
+		{
+			var hWnd = WindowSelector.SelectedWindowHwnd;
+			if (hWnd == IntPtr.Zero)
+			{
+				return;
+			}
+
+			using var bitmap = ScreenCapturer.CaptureWindow(hWnd);
+			using var softwareBitmap = bitmap.ToSoftwareBitmap();
+			var texts = await _ocrTextRecognizer.RecognizeAsync(softwareBitmap);
+			var tags = _tagResolver.ResolveTags(texts);
+			TagSelector.SetTags(tags);
+		}
+
 		private void TagItemIsSelectedChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName != nameof(TagItemViewModel.IsSelected))
@@ -45,8 +72,7 @@ namespace DontMissVulcan.ViewModels.Recruitment
 				return;
 			}
 
-			var selectedTags = TagSelector.TagItems.Where(tagItem => tagItem.IsSelected).Select(tagItem => tagItem.Tag);
-			var matches = _matchFinder.FindAllMathes(selectedTags);
+			var matches = _matchFinder.FindAllMathes(TagSelector.SelectedTags);
 			var matchClassification = MatchClassifier.ClassifyMatches(matches);
 			MatchResults.SetResults(matchClassification);
 		}

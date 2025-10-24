@@ -8,6 +8,11 @@ namespace DontMissVulcan.Models.Platform
 	{
 		public static Bitmap CaptureWindow(IntPtr hWnd)
 		{
+			if (hWnd == IntPtr.Zero)
+			{
+				throw new ArgumentException("Invalid window handle: IntPtr.Zero", nameof(hWnd));
+			}
+
 			var rectangle = WindowInterop.GetWindowRectangle(hWnd);
 			return CaptureRectangle(rectangle);
 		}

@@ -12,65 +12,84 @@
 
     <Grid>
         <StackPanel>
-            <TextBlock Text="ウィンドウ選択" />
-            <StackPanel Orientation="Horizontal">
-                <Button Content="更新" Command="{x:Bind ViewModel.WindowSelector.UpdateWindowsCommand}" />
-                
-                <ComboBox Width="300"
+            <Grid>
+                <StackPanel>
+                    <TextBlock Text="ウィンドウ選択" />
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="更新" Command="{x:Bind ViewModel.WindowSelector.UpdateWindowsCommand}" />
+
+                        <ComboBox Width="300"
                     ItemsSource="{x:Bind ViewModel.WindowSelector.WindowNames}"
                     SelectedIndex="{x:Bind ViewModel.WindowSelector.SelectedWindowIndex, Mode=TwoWay}">
-                </ComboBox>
+                        </ComboBox>
 
-                <Button Content="3秒後にアクティブなウィンドウを取得" Command="{x:Bind ViewModel.WindowSelector.GetForegroundWindowAfter3sCommand}" />
-            </StackPanel>
+                        <Button Content="3秒後にアクティブなウィンドウを取得" Command="{x:Bind ViewModel.WindowSelector.GetForegroundWindowAfter3sCommand}" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
 
-            <TextBlock Text="タグ選択" />
-            <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.TagCategoryItems}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="tagselection:TagCategoryItemViewModel">
-                        <StackPanel>
-                            <TextBlock Text="{x:Bind Name}" />
+            <Grid>
+                <Button Content="タグ認識" Command="{x:Bind ViewModel.RecognizeTagsCommand}" />
+            </Grid>
 
-                            <GridView
+            <Grid>
+                <StackPanel>
+                    <TextBlock Text="タグ選択" />
+
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.TagCategoryItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="tagselection:TagCategoryItemViewModel">
+                                <StackPanel>
+                                    <TextBlock Text="{x:Bind Name}" />
+
+                                    <GridView
                                 SelectionMode="None"
                                 IsItemClickEnabled="False"
                                 ItemsSource="{x:Bind TagItems}">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate x:DataType="tagselection:TagItemViewModel">
-                                        <ToggleButton Width="100" Height="40"
+                                        <GridView.ItemTemplate>
+                                            <DataTemplate x:DataType="tagselection:TagItemViewModel">
+                                                <ToggleButton Width="100" Height="40"
                                               Content="{x:Bind DisplayName}"
                                               IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
                                               IsEnabled="{x:Bind IsSelectable, Mode=OneWay}" />
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                            </DataTemplate>
+                                        </GridView.ItemTemplate>
+                                    </GridView>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Grid>
 
-            <TextBlock Text="マッチング結果" />
-            <ItemsControl ItemsSource="{x:Bind ViewModel.MatchResults.MatchGroups}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="matching:MatchGroupViewModel">
-                        <StackPanel>
-                            <TextBlock Text="{x:Bind Name}" />
+            <Grid>
+                <StackPanel>
+                    <TextBlock Text="マッチング結果" />
 
-                            <ListView
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.MatchResults.MatchGroups}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="matching:MatchGroupViewModel">
+                                <StackPanel>
+                                    <TextBlock Text="{x:Bind Name}" />
+
+                                    <ListView
                                 SelectionMode="None"
                                 IsItemClickEnabled="False"
                                 ItemsSource="{x:Bind MatchItems}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="matching:MatchItemViewModel">
-                                        <TextBlock Text="{x:Bind MatchDisplay}"
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="matching:MatchItemViewModel">
+                                                <TextBlock Text="{x:Bind MatchDisplay}"
                                                    TextWrapping="Wrap" />
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>
