@@ -20,8 +20,8 @@
                         <Button Content="更新" Command="{x:Bind ViewModel.WindowSelector.UpdateWindowsCommand}" />
 
                         <ComboBox Width="300"
-                    ItemsSource="{x:Bind ViewModel.WindowSelector.WindowNames}"
-                    SelectedIndex="{x:Bind ViewModel.WindowSelector.SelectedWindowIndex, Mode=TwoWay}">
+                            ItemsSource="{x:Bind ViewModel.WindowSelector.WindowNames}"
+                            SelectedIndex="{x:Bind ViewModel.WindowSelector.SelectedWindowIndex, Mode=TwoWay}">
                         </ComboBox>
 
                         <Button Content="3秒後にアクティブなウィンドウを取得" Command="{x:Bind ViewModel.WindowSelector.GetForegroundWindowAfter3sCommand}" />
@@ -44,15 +44,15 @@
                                     <TextBlock Text="{x:Bind Name}" />
 
                                     <GridView
-                                SelectionMode="None"
-                                IsItemClickEnabled="False"
-                                ItemsSource="{x:Bind TagItems}">
+                                        SelectionMode="None"
+                                        IsItemClickEnabled="False"
+                                        ItemsSource="{x:Bind TagItems}">
                                         <GridView.ItemTemplate>
                                             <DataTemplate x:DataType="tagselection:TagItemViewModel">
                                                 <ToggleButton Width="100" Height="40"
-                                              Content="{x:Bind DisplayName}"
-                                              IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
-                                              IsEnabled="{x:Bind IsSelectable, Mode=OneWay}" />
+                                                    Content="{x:Bind DisplayName}"
+                                                    IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
+                                                    IsEnabled="{x:Bind IsSelectable, Mode=OneWay}" />
                                             </DataTemplate>
                                         </GridView.ItemTemplate>
                                     </GridView>
@@ -74,13 +74,13 @@
                                     <TextBlock Text="{x:Bind Name}" />
 
                                     <ListView
-                                SelectionMode="None"
-                                IsItemClickEnabled="False"
-                                ItemsSource="{x:Bind MatchItems}">
+                                        SelectionMode="None"
+                                        IsItemClickEnabled="False"
+                                        ItemsSource="{x:Bind MatchItems}">
                                         <ListView.ItemTemplate>
                                             <DataTemplate x:DataType="matching:MatchItemViewModel">
                                                 <TextBlock Text="{x:Bind MatchDisplay}"
-                                                   TextWrapping="Wrap" />
+                                                    TextWrapping="Wrap" />
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
                                     </ListView>
