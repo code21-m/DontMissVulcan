@@ -3,7 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace DontMissVulcan.Views.Recruitment
 {
-	public sealed partial class RecruitmentView : UserControl
+	public sealed partial class RecruitmentView : Page
 	{
 		internal RecruitmentViewModel ViewModel { get; } = new();
 
