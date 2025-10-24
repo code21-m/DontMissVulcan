@@ -7,6 +7,6 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 	{
 		public string Name { get; } = name;
 
-		public ObservableCollection<TagItemViewModel> TagItems { get; } = new ObservableCollection<TagItemViewModel>(tags);
+		public ObservableCollection<TagItemViewModel> TagItems { get; } = new(tags);
 	}
 }

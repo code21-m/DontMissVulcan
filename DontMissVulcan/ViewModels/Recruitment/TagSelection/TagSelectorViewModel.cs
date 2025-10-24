@@ -1,5 +1,6 @@
 ﻿using DontMissVulcan.Models.Recruitment.Domain;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
@@ -18,16 +19,14 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 			TagCategories.Add(new TagCategoryViewModel("ポジション", Models.Recruitment.Domain.TagCategories.PositionTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
 			TagCategories.Add(new TagCategoryViewModel("専門", Models.Recruitment.Domain.TagCategories.SpecializationTags.Select(tag => new TagItemViewModel(tag, gameData.TagToDisplayName[tag]))));
 
-			foreach (var tagCategory in TagCategories)
+			foreach (var tagItem in TagCategories.SelectMany(tagCategory => tagCategory.TagItems))
 			{
-				foreach (var tagItem in tagCategory.TagItems)
-				{
-					tagItem.PropertyChanged += TagSelectionChanged;
-				}
+				tagItem.PropertyChanged += TagItemIsSelectedChanged;
 			}
+			SelectedTags.CollectionChanged += SelectedTagsChanged;
 		}
 
-		private void TagSelectionChanged(object? sender, PropertyChangedEventArgs e)
+		private void TagItemIsSelectedChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName != nameof(TagItemViewModel.IsSelected))
 			{
@@ -38,33 +37,39 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 				return;
 			}
 
-			const int maxSelectable = 5;
-			if (changedTagItem.IsSelected)
+			if (changedTagItem.IsSelected && !SelectedTags.Contains(changedTagItem.Tag))
 			{
 				SelectedTags.Add(changedTagItem.Tag);
-				if (SelectedTags.Count == maxSelectable)
-				{
-					var unselectedTagItems = TagCategories
-						.SelectMany(tagCategory => tagCategory.TagItems)
-						.Where(tagItem => !tagItem.IsSelected);
-					foreach (var tag in unselectedTagItems)
-					{
-						tag.IsSelectable = false;
-					}
-				}
 			}
 			else
 			{
 				SelectedTags.Remove(changedTagItem.Tag);
-				if (SelectedTags.Count == maxSelectable - 1)
+			}
+		}
+
+		private void SelectedTagsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			var tagItems = TagCategories.SelectMany(tagCategory => tagCategory.TagItems);
+
+			foreach (var tagItem in tagItems.Where(tagItem => SelectedTags.Contains(tagItem.Tag)))
+			{
+				tagItem.IsSelected = true;
+			}
+
+			const int maxSelectable = 5;
+			if (SelectedTags.Count >= maxSelectable)
+			{
+				var unselectedTagItems = tagItems.Where(tagItem => !tagItem.IsSelected);
+				foreach (var tag in unselectedTagItems)
 				{
-					var otherUnselectedTagItems = TagCategories
-						.SelectMany(tagCategory => tagCategory.TagItems)
-						.Where(tagItem => !tagItem.IsSelected && tagItem != changedTagItem);
-					foreach (var tag in otherUnselectedTagItems)
-					{
-						tag.IsSelectable = true;
-					}
+					tag.IsSelectable = false;
+				}
+			}
+			else
+			{
+				foreach (var tag in tagItems)
+				{
+					tag.IsSelectable = true;
 				}
 			}
 		}

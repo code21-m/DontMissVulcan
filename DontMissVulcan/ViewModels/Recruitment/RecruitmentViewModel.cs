@@ -26,10 +26,10 @@ namespace DontMissVulcan.ViewModels.Recruitment
 			TagSelector = new TagSelectorViewModel(gameData);
 			MatchResults = new MatchResultsViewModel(gameData);
 
-			TagSelector.SelectedTags.CollectionChanged += SelectedTags_CollectionChanged;
+			TagSelector.SelectedTags.CollectionChanged += SelectedTagsChanged;
 		}
 
-		private void SelectedTags_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		private void SelectedTagsChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			var matches = _matchFinder.FindAllMathes(TagSelector.SelectedTags);
 			var matchClassification = MatchClassifier.ClassifyMatches(matches);
