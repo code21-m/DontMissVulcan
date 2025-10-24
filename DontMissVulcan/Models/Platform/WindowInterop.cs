@@ -106,5 +106,16 @@ namespace DontMissVulcan.Models.Platform
 				return Rectangle.Empty;
 			}
 		}
+
+		public static uint GetDpiForWindow(IntPtr hWnd)
+		{
+			return PInvoke.GetDpiForWindow((HWND)hWnd);
+		}
+
+		public static double GetDpiScaleForWindow(IntPtr hWnd)
+		{
+			const double defaultDpi = 96;
+			return GetDpiForWindow(hWnd) / defaultDpi;
+		}
 	}
 }

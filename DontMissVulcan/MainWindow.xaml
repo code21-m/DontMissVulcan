@@ -15,6 +15,8 @@
     </Window.SystemBackdrop>
 
     <Grid>
-        <recruitment:RecruitmentView />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <recruitment:RecruitmentView />
+        </ScrollViewer>
     </Grid>
 </Window>

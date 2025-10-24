@@ -1,5 +1,6 @@
 ﻿BringWindowToTop
 EnumWindows
+GetDpiForWindow
 GetForegroundWindow
 GetWindowRect
 GetWindowText

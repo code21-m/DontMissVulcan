@@ -10,38 +10,52 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Style x:Key="HeadingTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="28" />
+        </Style>
+
+        <Style x:Key="SectionTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="21" />
+        </Style>
+    </Page.Resources>
+    
     <Grid>
-        <StackPanel>
-            <Grid>
+        <StackPanel Margin="5">
+            <Grid Margin="0,0,0,10">
                 <StackPanel>
-                    <TextBlock Text="ウィンドウ選択" />
+                    <TextBlock Text="ウィンドウ選択" Style="{StaticResource HeadingTextBlockStyle}" />
 
                     <StackPanel Orientation="Horizontal">
-                        <Button Content="更新" Command="{x:Bind ViewModel.WindowSelector.UpdateWindowsCommand}" />
+                        <Button Width="60" Height="40" Margin="0,0,5,0"
+                            Content="更新"
+                            Command="{x:Bind ViewModel.WindowSelector.UpdateWindowsCommand}" />
 
-                        <ComboBox Width="300"
+                        <ComboBox Width="300" Height="40" Margin="0,0,5,0"
                             ItemsSource="{x:Bind ViewModel.WindowSelector.WindowNames}"
                             SelectedIndex="{x:Bind ViewModel.WindowSelector.SelectedWindowIndex, Mode=TwoWay}">
                         </ComboBox>
 
-                        <Button Content="3秒後にアクティブなウィンドウを取得" Command="{x:Bind ViewModel.WindowSelector.GetForegroundWindowAfter3sCommand}" />
+                        <Button Width="220" Height="40"
+                            Content="3秒後にアクティブなウィンドウを取得"
+                            Command="{x:Bind ViewModel.WindowSelector.GetForegroundWindowAfter3sCommand}" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
 
-            <Grid>
-                <Button Content="タグ認識" Command="{x:Bind ViewModel.RecognizeTagsCommand}" />
-            </Grid>
-
-            <Grid>
+            <Grid Margin="0,0,0,10">
                 <StackPanel>
-                    <TextBlock Text="タグ選択" />
+                    <TextBlock Text="タグ選択" Style="{StaticResource HeadingTextBlockStyle}" />
+
+                    <Button Width="100" Height="40" Margin="0,0,0,5"
+                        Content="自動選択"
+                        Command="{x:Bind ViewModel.RecognizeTagsCommand}" />
 
                     <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.TagCategoryItems}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="tagselection:TagCategoryItemViewModel">
                                 <StackPanel>
-                                    <TextBlock Text="{x:Bind Name}" />
+                                    <TextBlock Text="{x:Bind Name}" Style="{StaticResource SectionTextBlockStyle}" />
 
                                     <GridView
                                         SelectionMode="None"
@@ -49,8 +63,8 @@
                                         ItemsSource="{x:Bind TagItems}">
                                         <GridView.ItemTemplate>
                                             <DataTemplate x:DataType="tagselection:TagItemViewModel">
-                                                <ToggleButton Width="100" Height="40"
-                                                    Content="{x:Bind DisplayName}"
+                                                <ToggleButton Width="100" Height="40" Margin="0,0,5,5"
+                                                    Content="{x:Bind DisplayName}" FontSize="14"
                                                     IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
                                                     IsEnabled="{x:Bind IsSelectable, Mode=OneWay}" />
                                             </DataTemplate>
@@ -65,13 +79,13 @@
 
             <Grid>
                 <StackPanel>
-                    <TextBlock Text="マッチング結果" />
+                    <TextBlock Text="マッチング結果" Style="{StaticResource HeadingTextBlockStyle}" />
 
                     <ItemsControl ItemsSource="{x:Bind ViewModel.MatchResults.MatchGroups}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="matching:MatchGroupViewModel">
                                 <StackPanel>
-                                    <TextBlock Text="{x:Bind Name}" />
+                                    <TextBlock Text="{x:Bind Name}" Style="{StaticResource SectionTextBlockStyle}" />
 
                                     <ListView
                                         SelectionMode="None"
@@ -79,8 +93,20 @@
                                         ItemsSource="{x:Bind MatchItems}">
                                         <ListView.ItemTemplate>
                                             <DataTemplate x:DataType="matching:MatchItemViewModel">
-                                                <TextBlock Text="{x:Bind MatchDisplay}"
-                                                    TextWrapping="Wrap" />
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="250" />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Grid.Column="0"
+                                                        Text="{x:Bind TagsDisplay}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <TextBlock Grid.Column="1"
+                                                        Text="{x:Bind OperatorsDisplay}"
+                                                        TextWrapping="Wrap" />
+                                                </Grid>
                                             </DataTemplate>
                                         </ListView.ItemTemplate>
                                     </ListView>

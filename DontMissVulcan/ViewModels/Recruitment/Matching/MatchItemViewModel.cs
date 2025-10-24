@@ -6,9 +6,8 @@ namespace DontMissVulcan.ViewModels.Recruitment.Matching
 {
 	internal class MatchItemViewModel(GameData gameData, Match match)
 	{
-		public string MatchDisplay { get; } =
-				string.Join(" ", match.Tags.Select(tag => gameData.TagToDisplayName[tag])) +
-				$" -> " +
-				string.Join(" ", match.Operators.OrderByDescending(_operator => _operator.Rarity).Select(_operator => _operator.Name));
+		public string TagsDisplay { get; } = string.Join(" ", match.Tags.Select(tag => gameData.TagToDisplayName[tag]));
+
+		public string OperatorsDisplay { get; } = string.Join(" ", match.Operators.OrderByDescending(_operator => _operator.Rarity).Select(_operator => _operator.Name));
 	}
 }
