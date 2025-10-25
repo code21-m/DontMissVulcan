@@ -10,8 +10,18 @@ using System.Text.Json;
 
 namespace DontMissVulcan.Models.Recruitment.Data
 {
+	/// <summary>
+	/// ゲームデータをJSONファイルから読み込みます。
+	/// </summary>
 	public static class GameDataLoader
 	{
+		/// <summary>
+		/// ゲームデータをJSONファイルから読み込みます。
+		/// </summary>
+		/// <param name="tagToDisplayNameJsonPath">タグとその表示名を対応付けるJSONファイルのパス</param>
+		/// <param name="operatorsJsonPath">オペレーター情報を格納したJSONファイルのパス</param>
+		/// <returns>ゲームデータ</returns>
+		/// <exception cref="InvalidOperationException">不正なJSONファイルのパスが指定された場合にスローされます。</exception>
 		public static GameData Load(string tagToDisplayNameJsonPath, string operatorsJsonPath)
 		{
 			string tagToDisplayNameJson;

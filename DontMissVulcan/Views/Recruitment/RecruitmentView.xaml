@@ -22,6 +22,7 @@
     
     <Grid>
         <StackPanel Margin="5">
+            <!-- ウィンドウ選択 -->
             <Grid Margin="0,0,0,10">
                 <StackPanel>
                     <TextBlock Text="ウィンドウ選択" Style="{StaticResource HeadingTextBlockStyle}" />
@@ -32,7 +33,7 @@
                             Command="{x:Bind ViewModel.WindowSelector.UpdateWindowsCommand}" />
 
                         <ComboBox Width="300" Height="40" Margin="0,0,5,0"
-                            ItemsSource="{x:Bind ViewModel.WindowSelector.WindowNames}"
+                            ItemsSource="{x:Bind ViewModel.WindowSelector.WindowTitles}"
                             SelectedIndex="{x:Bind ViewModel.WindowSelector.SelectedWindowIndex, Mode=TwoWay}">
                         </ComboBox>
 
@@ -43,6 +44,7 @@
                 </StackPanel>
             </Grid>
 
+            <!-- タグ選択 -->
             <Grid Margin="0,0,0,10">
                 <StackPanel>
                     <TextBlock Text="タグ選択" Style="{StaticResource HeadingTextBlockStyle}" />
@@ -77,6 +79,7 @@
                 </StackPanel>
             </Grid>
 
+            <!-- マッチング結果 -->
             <Grid>
                 <StackPanel>
                     <TextBlock Text="マッチング結果" Style="{StaticResource HeadingTextBlockStyle}" />

@@ -3,11 +3,20 @@ using System.Collections.Generic;
 
 namespace DontMissVulcan.Models.Recruitment.Domain
 {
+	/// <summary>
+	/// タグをカテゴリごとに分類します。
+	/// </summary>
 	public static class TagCategories
 	{
+		/// <summary>
+		/// レアタグ
+		/// </summary>
 		public static readonly IReadOnlySet<Tag> QualificationTags =
 			ImmutableHashSet.Create(Tag.SeniorOperator, Tag.TopOperator);
 
+		/// <summary>
+		/// 職業タグ
+		/// </summary>
 		public static readonly IReadOnlySet<Tag> ClassTags =
 			ImmutableHashSet.Create(
 				Tag.Vanguard,
@@ -20,9 +29,15 @@ namespace DontMissVulcan.Models.Recruitment.Domain
 				Tag.Specialist
 			);
 
+		/// <summary>
+		/// ポジションタグ
+		/// </summary>
 		public static readonly IReadOnlySet<Tag> PositionTags =
 			ImmutableHashSet.Create(Tag.Melee, Tag.Ranged);
 
+		/// <summary>
+		/// 専門タグ
+		/// </summary>
 		public static readonly IReadOnlySet<Tag> SpecializationTags =
 			ImmutableHashSet.Create(
 				Tag.AoE,

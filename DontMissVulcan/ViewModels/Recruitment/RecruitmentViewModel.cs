@@ -8,28 +8,50 @@ using DontMissVulcan.ViewModels.Recruitment.Matching;
 using DontMissVulcan.ViewModels.Recruitment.TagSelection;
 using DontMissVulcan.ViewModels.Recruitment.WindowSelection;
 using System;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DontMissVulcan.ViewModels.Recruitment
 {
+	/// <summary>
+	/// 公開求人ツールのViewModel
+	/// </summary>
 	internal partial class RecruitmentViewModel
 	{
+		/// <summary>
+		/// ウィンドウ選択機能のViewModel
+		/// </summary>
 		public WindowSelectorViewModel WindowSelector { get; }
 
+		/// <summary>
+		/// タグ選択機能のViewModel
+		/// </summary>
 		public TagSelectorViewModel TagSelector { get; }
 
+		/// <summary>
+		/// マッチング結果表示のViewModel
+		/// </summary>
 		public MatchResultsViewModel MatchResults { get; }
 
+		/// <summary>
+		/// OCRテキスト認識器
+		/// </summary>
 		private readonly OcrTextRecognizer _ocrTextRecognizer;
 
+		/// <summary>
+		/// タグ解決器
+		/// </summary>
 		private readonly TagResolver _tagResolver;
 
+		/// <summary>
+		/// マッチ検索器
+		/// </summary>
 		private readonly MatchFinder _matchFinder;
 
+		/// <summary>
+		/// 公開求人ツールの初期化を行います。
+		/// </summary>
 		public RecruitmentViewModel()
 		{
 			var assetsDir = Path.Combine(AppContext.BaseDirectory, "Assets");
@@ -45,10 +67,39 @@ namespace DontMissVulcan.ViewModels.Recruitment
 
 			foreach (var tagItem in TagSelector.TagItems)
 			{
-				tagItem.PropertyChanged += TagItemIsSelectedChanged;
+				tagItem.PropertyChanged += TagItemSelectionChanged;
 			}
 		}
 
+		/// <summary>
+		/// タグ選択が変更されたときにマッチ検索を行います。
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void TagItemSelectionChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName != nameof(TagItemViewModel.IsSelected))
+			{
+				return;
+			}
+
+			FindMatches();
+		}
+
+		/// <summary>
+		/// 選択されているタグからマッチを検索します。
+		/// </summary>
+		private void FindMatches()
+		{
+			var matches = _matchFinder.FindAllMathes(TagSelector.SelectedTags);
+			var matchClassification = MatchClassifier.ClassifyMatches(matches);
+			MatchResults.SetResults(matchClassification);
+		}
+
+		/// <summary>
+		/// 選択されたウィンドウに対してタグの認識を試みます。
+		/// </summary>
+		/// <returns></returns>
 		[RelayCommand]
 		public async Task RecognizeTags()
 		{
@@ -58,23 +109,13 @@ namespace DontMissVulcan.ViewModels.Recruitment
 				return;
 			}
 
+			// ウィンドウをアクティブにしてからスクリーンショットを撮影する。
+			WindowInterop.SetForegroundWindow(hWnd);
 			using var bitmap = ScreenCapturer.CaptureWindow(hWnd);
 			using var softwareBitmap = bitmap.ToSoftwareBitmap();
 			var texts = await _ocrTextRecognizer.RecognizeAsync(softwareBitmap);
 			var tags = _tagResolver.ResolveTags(texts);
 			TagSelector.SetTags(tags);
-		}
-
-		private void TagItemIsSelectedChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName != nameof(TagItemViewModel.IsSelected))
-			{
-				return;
-			}
-
-			var matches = _matchFinder.FindAllMathes(TagSelector.SelectedTags);
-			var matchClassification = MatchClassifier.ClassifyMatches(matches);
-			MatchResults.SetResults(matchClassification);
 		}
 	}
 }

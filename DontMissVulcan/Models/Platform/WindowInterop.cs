@@ -7,8 +7,16 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace DontMissVulcan.Models.Platform
 {
+	/// <summary>
+	/// ウィンドウに関するWin32 APIをラップします。
+	/// </summary>
 	public static class WindowInterop
 	{
+		/// <summary>
+		/// 指定されたウィンドウのタイトルを取得します。
+		/// </summary>
+		/// <param name="hWnd">ウィンドウハンドル</param>
+		/// <returns>ウィンドウのタイトル</returns>
 		public static string GetWindowTitle(IntPtr hWnd)
 		{
 			var _hWnd = (HWND)hWnd;
@@ -30,6 +38,10 @@ namespace DontMissVulcan.Models.Platform
 			return new string(buffer[..copiedLength]);
 		}
 
+		/// <summary>
+		/// すべてのウィンドウを取得します。
+		/// </summary>
+		/// <returns>ウィンドウハンドルとタイトル</returns>
 		public static IReadOnlyCollection<(IntPtr hWnd, string title)> GetAllWindows()
 		{
 			var windows = new List<(IntPtr, string)>();
@@ -49,6 +61,10 @@ namespace DontMissVulcan.Models.Platform
 			return windows;
 		}
 
+		/// <summary>
+		/// アクティブなウィンドウを取得します。
+		/// </summary>
+		/// <returns>ウィンドウハンドルとタイトル</returns>
 		public static (IntPtr hWnd, string title) GetForegroundWindow()
 		{
 			var hWnd = PInvoke.GetForegroundWindow();
@@ -56,6 +72,11 @@ namespace DontMissVulcan.Models.Platform
 			return (hWnd, title);
 		}
 
+		/// <summary>
+		/// 指定されたウィンドウがアクティブか判定します。
+		/// </summary>
+		/// <param name="hWnd">ウィンドウハンドル</param>
+		/// <returns>アクティブならTrue、そうでなければFalse</returns>
 		public static bool IsForegroundWindow(IntPtr hWnd)
 		{
 			if (hWnd == HWND.Null)
@@ -65,6 +86,11 @@ namespace DontMissVulcan.Models.Platform
 			return hWnd == PInvoke.GetForegroundWindow();
 		}
 
+		/// <summary>
+		/// 指定されたウィンドウをアクティブにします。
+		/// </summary>
+		/// <param name="hWnd">ウィンドウハンドル</param>
+		/// <returns>成功すればTrue、そうでなければFalse</returns>
 		public static bool SetForegroundWindow(IntPtr hWnd)
 		{
 			var _hWnd = (HWND)hWnd;
@@ -81,13 +107,18 @@ namespace DontMissVulcan.Models.Platform
 			{
 				return true;
 			}
-			// ウィンドウの表示・最前面化を行い再試行
+			// ウィンドウの表示・最前面化を行い再試行する。
 			PInvoke.ShowWindow(_hWnd, SHOW_WINDOW_CMD.SW_RESTORE);
 			PInvoke.BringWindowToTop(_hWnd);
 			PInvoke.SetForegroundWindow(_hWnd);
 			return IsForegroundWindow(_hWnd);
 		}
 
+		/// <summary>
+		/// 指定されたウィンドウの矩形領域を取得します。
+		/// </summary>
+		/// <param name="hWnd">ウィンドウハンドル</param>
+		/// <returns>矩形領域</returns>
 		public static Rectangle GetWindowRectangle(IntPtr hWnd)
 		{
 			var _hWnd = (HWND)hWnd;
@@ -107,11 +138,21 @@ namespace DontMissVulcan.Models.Platform
 			}
 		}
 
+		/// <summary>
+		/// 指定されたウィンドウのDPIを取得します。
+		/// </summary>
+		/// <param name="hWnd">ウィンドウハンドル</param>
+		/// <returns>DPI</returns>
 		public static uint GetDpiForWindow(IntPtr hWnd)
 		{
 			return PInvoke.GetDpiForWindow((HWND)hWnd);
 		}
 
+		/// <summary>
+		/// 指定されたウィンドウのDPIスケーリング係数を取得します。
+		/// </summary>
+		/// <param name="hWnd">ウィンドウハンドル</param>
+		/// <returns>DPIスケーリング係数</returns>
 		public static double GetDpiScaleForWindow(IntPtr hWnd)
 		{
 			const double defaultDpi = 96;

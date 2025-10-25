@@ -8,21 +8,33 @@ using Windows.Storage;
 
 namespace DontMissVulcan.Models.Extensions
 {
+	/// <summary>
+	/// SoftwareBitmapの拡張メソッド
+	/// </summary>
 	public static class SoftwareBitmapExtensions
 	{
-		public static async Task SaveAsync(this SoftwareBitmap source, string filename)
+		/// <summary>
+		/// 指定されたパス・拡張子で画像を保存します。
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="filepath">保存先のパス</param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException">filepathが不正な場合にスローされます。</exception>
+		public static async Task SaveAsync(this SoftwareBitmap source, string filepath)
 		{
-			if (string.IsNullOrWhiteSpace(filename))
+			if (string.IsNullOrWhiteSpace(filepath))
 			{
-				throw new ArgumentException("filename must be provided", nameof(filename));
+				throw new ArgumentException("filepath must be provided", nameof(filepath));
 			}
-			var directory = Path.GetDirectoryName(filename);
+
+			var directory = Path.GetDirectoryName(filepath);
 			if (string.IsNullOrEmpty(directory))
 			{
-				throw new ArgumentException("Invalid filename", nameof(filename));
+				throw new ArgumentException("Invalid filepath", nameof(filepath));
 			}
 			Directory.CreateDirectory(directory);
-			var ext = Path.GetExtension(filename)?.ToLowerInvariant();
+
+			var ext = Path.GetExtension(filepath)?.ToLowerInvariant();
 			Guid encoderId;
 			bool supportsAlpha;
 			switch (ext)
@@ -50,7 +62,7 @@ namespace DontMissVulcan.Models.Extensions
 					supportsAlpha = true;
 					break;
 				default:
-					filename += ".png";
+					filepath += ".png";
 					encoderId = BitmapEncoder.PngEncoderId;
 					supportsAlpha = true;
 					break;
@@ -63,7 +75,7 @@ namespace DontMissVulcan.Models.Extensions
 			try
 			{
 				var folder = await StorageFolder.GetFolderFromPathAsync(directory);
-				var file = await folder.CreateFileAsync(Path.GetFileName(filename), CreationCollisionOption.ReplaceExisting);
+				var file = await folder.CreateFileAsync(Path.GetFileName(filepath), CreationCollisionOption.ReplaceExisting);
 				using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
 				var encoder = await BitmapEncoder.CreateAsync(encoderId, stream);
 
@@ -78,8 +90,9 @@ namespace DontMissVulcan.Models.Extensions
 					int height = bitmapToEncode.PixelHeight;
 					var pixels = FlattenToBgra8White(bitmapToEncode);
 
+					const double defaultDpi = 96.0;
 					encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore,
-						(uint)width, (uint)height, 96.0, 96.0, pixels);
+						(uint)width, (uint)height, defaultDpi, defaultDpi, pixels);
 					await encoder.FlushAsync();
 				}
 			}
@@ -92,6 +105,11 @@ namespace DontMissVulcan.Models.Extensions
 			}
 		}
 
+		/// <summary>
+		/// 白バックに合成して不透明にします。
+		/// </summary>
+		/// <param name="bitmap">BGRA8かつPremultipliedであるSoftwareBitmap</param>
+		/// <returns>ピクセルデータ</returns>
 		private static byte[] FlattenToBgra8White(SoftwareBitmap bitmap)
 		{
 			Debug.Assert(bitmap.BitmapAlphaMode == BitmapAlphaMode.Premultiplied);

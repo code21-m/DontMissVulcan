@@ -7,22 +7,41 @@ using System.Linq;
 
 namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 {
+	/// <summary>
+	/// タグ選択機能のViewModel
+	/// </summary>
 	internal class TagSelectorViewModel
 	{
+		/// <summary>
+		/// タグ選択ボタンのViewModel
+		/// </summary>
 		public ObservableCollection<TagItemViewModel> TagItems { get; } = [];
 
+		/// <summary>
+		/// カテゴリごとに分類されたタグ選択ボタンのViewModel
+		/// </summary>
 		public ObservableCollection<TagCategoryItemViewModel> TagCategoryItems { get; } = [];
 
+		/// <summary>
+		/// 選択されているタグ
+		/// </summary>
 		public IReadOnlySet<Tag> SelectedTags => TagItems.Where(tagItem => tagItem.IsSelected).Select(tagItem => tagItem.Tag).ToHashSet();
 
+		/// <summary>
+		/// タグ選択数上限
+		/// </summary>
 		private const int maxSelectable = 5;
 
+		/// <summary>
+		/// タグ選択機能の初期化を行います。
+		/// </summary>
+		/// <param name="gameData">ゲームデータ</param>
 		public TagSelectorViewModel(GameData gameData)
 		{
 			foreach (Tag tag in Enum.GetValues(typeof(Tag)))
 			{
 				var tagItem = new TagItemViewModel(tag, gameData.TagToDisplayName[tag]);
-				tagItem.PropertyChanged += TagItemIsSelectedChanged;
+				tagItem.PropertyChanged += TagItemSelectionChanged;
 				TagItems.Add(tagItem);
 			}
 			TagCategoryItems.Add(new("レア", TagItems.Where(tagItem => TagCategories.QualificationTags.Contains(tagItem.Tag))));
@@ -31,6 +50,10 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 			TagCategoryItems.Add(new("専門", TagItems.Where(tagItem => TagCategories.SpecializationTags.Contains(tagItem.Tag))));
 		}
 
+		/// <summary>
+		/// タグ選択をまとめて設定します。
+		/// </summary>
+		/// <param name="tags">タグ</param>
 		public void SetTags(IEnumerable<Tag> tags)
 		{
 			var _tags = tags.ToHashSet().Take(maxSelectable);
@@ -44,17 +67,26 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 			}
 		}
 
-		private void TagItemIsSelectedChanged(object? sender, PropertyChangedEventArgs e)
+		/// <summary>
+		/// タグ選択が変更されたときに選択ボタンの有効・無効設定を更新します。
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void TagItemSelectionChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName != nameof(TagItemViewModel.IsSelected))
 			{
 				return;
 			}
-			if (sender is not TagItemViewModel changedTagItem)
-			{
-				return;
-			}
 
+			UpdateSelectableStatus();
+		}
+
+		/// <summary>
+		/// タグ選択数が上限に達しているかによって選択ボタンの有効・無効を切り替えます。
+		/// </summary>
+		private void UpdateSelectableStatus()
+		{
 			if (SelectedTags.Count < maxSelectable)
 			{
 				foreach (var tagItem in TagItems)
@@ -67,8 +99,6 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 			}
 			else
 			{
-				var selectedTagItems = TagItems.Where(tagItem => tagItem.IsSelected);
-				var unselectedTagItems = TagItems.Where(tagItem => !tagItem.IsSelected);
 				foreach (var tagItem in TagItems)
 				{
 					if (tagItem.IsSelectable != tagItem.IsSelected)

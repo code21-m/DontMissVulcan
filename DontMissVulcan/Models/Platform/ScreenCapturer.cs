@@ -4,8 +4,17 @@ using System.Drawing.Imaging;
 
 namespace DontMissVulcan.Models.Platform
 {
+	/// <summary>
+	/// スクリーンショットを撮影します。
+	/// </summary>
 	public static class ScreenCapturer
 	{
+		/// <summary>
+		/// 指定されたウィンドウのスクリーンショットを撮影します。
+		/// </summary>
+		/// <param name="hWnd">ウィンドウハンドル</param>
+		/// <returns>スクリーンショット</returns>
+		/// <exception cref="ArgumentException">適切なウィンドウハンドルが指定されていない場合にスローされます。</exception>
 		public static Bitmap CaptureWindow(IntPtr hWnd)
 		{
 			if (hWnd == IntPtr.Zero)
@@ -17,6 +26,11 @@ namespace DontMissVulcan.Models.Platform
 			return CaptureRectangle(rectangle);
 		}
 
+		/// <summary>
+		/// 指定された矩形領域のスクリーンショットを撮影します。
+		/// </summary>
+		/// <param name="rectangle">矩形領域</param>
+		/// <returns>スクリーンショット</returns>
 		public static Bitmap CaptureRectangle(Rectangle rectangle)
 		{
 			var bitmap = new Bitmap(rectangle.Width, rectangle.Height, PixelFormat.Format32bppPArgb);

@@ -5,8 +5,16 @@ using System.Linq;
 
 namespace DontMissVulcan.Models.Recruitment.Matching
 {
+	/// <summary>
+	/// マッチを分類します。
+	/// </summary>
 	public static class MatchClassifier
 	{
+		/// <summary>
+		/// マッチを分類します。
+		/// </summary>
+		/// <param name="matches">マッチ</param>
+		/// <returns>分類されたマッチ</returns>
 		public static MatchClassification ClassifyMatches(IEnumerable<Match> matches)
 		{
 			var sixStarsOperators = new List<Match>();

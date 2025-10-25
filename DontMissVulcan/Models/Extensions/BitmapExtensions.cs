@@ -9,8 +9,17 @@ using Windows.Graphics.Imaging;
 
 namespace DontMissVulcan.Models.Extensions
 {
+	/// <summary>
+	/// Bitmapの拡張メソッド
+	/// </summary>
 	public static class BitmapExtensions
 	{
+		/// <summary>
+		/// ピクセルフォーマットを変換したBitmapを新たに作成します。
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="pixelFormat">ピクセルフォーマット</param>
+		/// <returns>ピクセルフォーマットを変換したBitmap</returns>
 		public static Bitmap CloneWithPixelFormat(this Bitmap source, PixelFormat pixelFormat)
 		{
 			if (source.PixelFormat == pixelFormat)
@@ -27,6 +36,11 @@ namespace DontMissVulcan.Models.Extensions
 			return newBitmap;
 		}
 
+		/// <summary>
+		/// SoftwareBitmapに変換します。
+		/// </summary>
+		/// <param name="source"></param>
+		/// <returns>SoftwareBitmap</returns>
 		public static SoftwareBitmap ToSoftwareBitmap(this Bitmap source)
 		{
 			if (source.PixelFormat == PixelFormat.Format32bppPArgb)
@@ -40,6 +54,11 @@ namespace DontMissVulcan.Models.Extensions
 			}
 		}
 
+		/// <summary>
+		/// ピクセルフォーマットがFormat32bppPArgbのBitmapをSoftwareBitmapに変換します。
+		/// </summary>
+		/// <param name="bitmap">Bitmap</param>
+		/// <returns>SoftwareBitmap</returns>
 		private static SoftwareBitmap ToSoftwareBitmapCore(Bitmap bitmap)
 		{
 			Debug.Assert(bitmap.PixelFormat == PixelFormat.Format32bppPArgb);

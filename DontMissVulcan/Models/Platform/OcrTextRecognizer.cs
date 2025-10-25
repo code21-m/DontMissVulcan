@@ -9,10 +9,22 @@ using Windows.Media.Ocr;
 
 namespace DontMissVulcan.Models.Platform
 {
+	/// <summary>
+	/// Windows標準のOCRでテキスト認識を行います。
+	/// </summary>
+	/// <param name="language">言語</param>
 	public class OcrTextRecognizer(Language language)
 	{
+		/// <summary>
+		/// OCRエンジン
+		/// </summary>
 		private readonly OcrEngine _ocrEngine = OcrEngine.TryCreateFromLanguage(language);
 
+		/// <summary>
+		/// 指定された画像に対してテキスト認識を行います。
+		/// </summary>
+		/// <param name="softwareBitmap">画像</param>
+		/// <returns>行ごとの認識されたテキスト</returns>
 		public async Task<IReadOnlyList<string>> RecognizeAsync(SoftwareBitmap softwareBitmap)
 		{
 			var ocrResult = await _ocrEngine.RecognizeAsync(softwareBitmap);
