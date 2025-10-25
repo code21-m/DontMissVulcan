@@ -18,7 +18,7 @@ namespace DontMissVulcan.Models.Recruitment.Data
 		/// <summary>
 		/// ゲームデータをJSONファイルから読み込みます。
 		/// </summary>
-		/// <param name="tagToDisplayNameJsonPath">タグとその表示名を対応付けるJSONファイルのパス</param>
+		/// <param name="tagToDisplayNameJsonPath">タグと表示名を対応付けるJSONファイルのパス</param>
 		/// <param name="operatorsJsonPath">オペレーター情報を格納したJSONファイルのパス</param>
 		/// <returns>ゲームデータ</returns>
 		/// <exception cref="InvalidOperationException">不正なJSONファイルのパスが指定された場合にスローされます。</exception>
@@ -31,7 +31,7 @@ namespace DontMissVulcan.Models.Recruitment.Data
 			}
 			catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is System.Security.SecurityException)
 			{
-				throw new InvalidOperationException($"Failed to read tag-to-display-name JSON file: '{tagToDisplayNameJsonPath}'", ex);
+				throw new InvalidOperationException($"タグと表示名を対応付けるJSONファイルの読み取りに失敗しました: '{tagToDisplayNameJsonPath}'", ex);
 			}
 
 			Dictionary<string, string> tagToDisplayNameDto;
@@ -42,7 +42,7 @@ namespace DontMissVulcan.Models.Recruitment.Data
 			}
 			catch (JsonException ex)
 			{
-				throw new InvalidOperationException($"Failed to parse tag-to-display-name JSON file: '{tagToDisplayNameJsonPath}'", ex);
+				throw new InvalidOperationException($"タグと表示名を対応付けるJSONファイルの解析に失敗しました: '{tagToDisplayNameJsonPath}'", ex);
 			}
 
 			var tagToDisplayNameBuilder = ImmutableDictionary.CreateBuilder<Tag, string>();
@@ -67,7 +67,7 @@ namespace DontMissVulcan.Models.Recruitment.Data
 			}
 			catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is System.Security.SecurityException)
 			{
-				throw new InvalidOperationException($"Failed to read operators JSON file: '{operatorsJsonPath}'", ex);
+				throw new InvalidOperationException($"オペレーター情報のJSONファイルの読み取りに失敗しました: '{operatorsJsonPath}'", ex);
 			}
 
 			OperatorsDto operatorsDto;
@@ -77,7 +77,7 @@ namespace DontMissVulcan.Models.Recruitment.Data
 			}
 			catch (JsonException ex)
 			{
-				throw new InvalidOperationException($"Failed to parse operators JSON file: '{operatorsJsonPath}'", ex);
+				throw new InvalidOperationException($"オペレーター情報のJSONファイルの解析に失敗しました: '{operatorsJsonPath}'", ex);
 			}
 
 			var operators = operatorsDto.Operators?.Select(operatorDto => new Operator

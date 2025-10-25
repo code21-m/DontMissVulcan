@@ -24,17 +24,27 @@ namespace DontMissVulcan.Models.Extensions
 		{
 			if (string.IsNullOrWhiteSpace(filepath))
 			{
-				throw new ArgumentException("filepath must be provided", nameof(filepath));
+				throw new ArgumentException("filepathを指定してください。", nameof(filepath));
 			}
 
-			var directory = Path.GetDirectoryName(filepath);
+			string fullpath;
+			string directory;
+			try
+			{
+				fullpath = Path.GetFullPath(filepath);
+				directory = Path.GetDirectoryName(fullpath) ?? string.Empty;
+			}
+			catch (Exception ex)
+			{
+				throw new ArgumentException($"filepathが不正です。", nameof(filepath), ex);
+			}
 			if (string.IsNullOrEmpty(directory))
 			{
-				throw new ArgumentException("Invalid filepath", nameof(filepath));
+				throw new ArgumentException("filepathが不正です。", nameof(filepath));
 			}
 			Directory.CreateDirectory(directory);
 
-			var ext = Path.GetExtension(filepath)?.ToLowerInvariant();
+			var ext = Path.GetExtension(fullpath)?.ToLowerInvariant();
 			Guid encoderId;
 			bool supportsAlpha;
 			switch (ext)
@@ -62,7 +72,7 @@ namespace DontMissVulcan.Models.Extensions
 					supportsAlpha = true;
 					break;
 				default:
-					filepath += ".png";
+					fullpath += ".png";
 					encoderId = BitmapEncoder.PngEncoderId;
 					supportsAlpha = true;
 					break;
@@ -75,7 +85,7 @@ namespace DontMissVulcan.Models.Extensions
 			try
 			{
 				var folder = await StorageFolder.GetFolderFromPathAsync(directory);
-				var file = await folder.CreateFileAsync(Path.GetFileName(filepath), CreationCollisionOption.ReplaceExisting);
+				var file = await folder.CreateFileAsync(Path.GetFileName(fullpath), CreationCollisionOption.ReplaceExisting);
 				using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
 				var encoder = await BitmapEncoder.CreateAsync(encoderId, stream);
 

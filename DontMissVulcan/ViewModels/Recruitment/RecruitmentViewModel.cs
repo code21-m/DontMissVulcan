@@ -9,6 +9,7 @@ using DontMissVulcan.ViewModels.Recruitment.TagSelection;
 using DontMissVulcan.ViewModels.Recruitment.WindowSelection;
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -109,9 +110,19 @@ namespace DontMissVulcan.ViewModels.Recruitment
 				return;
 			}
 
-			// ウィンドウをアクティブにしてからスクリーンショットを撮影する。
+			// ウィンドウをアクティブにしてからキャプチャする。
 			WindowInterop.SetForegroundWindow(hWnd);
-			using var bitmap = ScreenCapturer.CaptureWindow(hWnd);
+			Bitmap _bitmap;
+			try
+			{
+				_bitmap = ScreenCapturer.CaptureWindow(hWnd);
+			}
+			catch
+			{
+				// キャプチャに失敗した場合はなにもしない。
+				return;
+			}
+			using var bitmap = _bitmap;
 			using var softwareBitmap = bitmap.ToSoftwareBitmap();
 			var texts = await _ocrTextRecognizer.RecognizeAsync(softwareBitmap);
 			var tags = _tagResolver.ResolveTags(texts);
