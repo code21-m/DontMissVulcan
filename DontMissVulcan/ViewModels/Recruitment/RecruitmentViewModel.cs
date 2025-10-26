@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using DontMissVulcan.Models.Extensions;
 using DontMissVulcan.Models.Platform;
 using DontMissVulcan.Models.Recruitment.Data;
 using DontMissVulcan.Models.Recruitment.Matching;
@@ -8,10 +7,9 @@ using DontMissVulcan.ViewModels.Recruitment.Matching;
 using DontMissVulcan.ViewModels.Recruitment.TagSelection;
 using DontMissVulcan.ViewModels.Recruitment.WindowSelection;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace DontMissVulcan.ViewModels.Recruitment
 {
@@ -58,7 +56,7 @@ namespace DontMissVulcan.ViewModels.Recruitment
 			var assetsDir = Path.Combine(AppContext.BaseDirectory, "Assets");
 			var gameData = GameDataLoader.Load(Path.Combine(assetsDir, "TagToDisplayName.json"), Path.Combine(assetsDir, "Operators.json"));
 
-			_ocrTextRecognizer = new(new("ja-JP"));
+			_ocrTextRecognizer = new();
 			_tagResolver = new(gameData);
 			_matchFinder = new(gameData);
 
@@ -102,7 +100,7 @@ namespace DontMissVulcan.ViewModels.Recruitment
 		/// </summary>
 		/// <returns></returns>
 		[RelayCommand]
-		public async Task RecognizeTags()
+		public void RecognizeTags()
 		{
 			var hWnd = WindowSelector.SelectedWindowHwnd;
 			if (hWnd == IntPtr.Zero)
@@ -112,19 +110,17 @@ namespace DontMissVulcan.ViewModels.Recruitment
 
 			// ウィンドウをアクティブにしてからキャプチャする。
 			WindowInterop.SetForegroundWindow(hWnd);
-			Bitmap _bitmap;
+			IReadOnlyList<string> texts;
 			try
 			{
-				_bitmap = ScreenCapturer.CaptureWindow(hWnd);
+				using var bitmap = ScreenCapturer.CaptureWindow(hWnd);
+				texts = _ocrTextRecognizer.Recognize(bitmap);
 			}
 			catch
 			{
 				// キャプチャに失敗した場合はなにもしない。
 				return;
 			}
-			using var bitmap = _bitmap;
-			using var softwareBitmap = bitmap.ToSoftwareBitmap();
-			var texts = await _ocrTextRecognizer.RecognizeAsync(softwareBitmap);
 			var tags = _tagResolver.ResolveTags(texts);
 			TagSelector.SetTags(tags);
 		}
