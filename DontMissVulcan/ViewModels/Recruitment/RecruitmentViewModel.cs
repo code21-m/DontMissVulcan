@@ -16,7 +16,7 @@ namespace DontMissVulcan.ViewModels.Recruitment
 	/// <summary>
 	/// 公開求人ツールのViewModel
 	/// </summary>
-	internal partial class RecruitmentViewModel
+	internal partial class RecruitmentViewModel : IDisposable
 	{
 		/// <summary>
 		/// ウィンドウ選択機能のViewModel
@@ -47,6 +47,8 @@ namespace DontMissVulcan.ViewModels.Recruitment
 		/// マッチ検索器
 		/// </summary>
 		private readonly MatchFinder _matchFinder;
+
+		private bool _disposed;
 
 		/// <summary>
 		/// 公開求人ツールの初期化を行います。
@@ -123,6 +125,36 @@ namespace DontMissVulcan.ViewModels.Recruitment
 			}
 			var tags = _tagResolver.ResolveTags(texts);
 			TagSelector.SetTags(tags);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (!_disposed)
+			{
+				if (disposing)
+				{
+					// TODO: マネージド状態を破棄します (マネージド オブジェクト)
+					_ocrTextRecognizer.Dispose();
+				}
+
+				// TODO: アンマネージド リソース (アンマネージド オブジェクト) を解放し、ファイナライザーをオーバーライドします
+				// TODO: 大きなフィールドを null に設定します
+				_disposed = true;
+			}
+		}
+
+		// // TODO: 'Dispose(bool disposing)' にアンマネージド リソースを解放するコードが含まれる場合にのみ、ファイナライザーをオーバーライドします
+		// ~RecruitmentViewModel()
+		// {
+		//     // このコードを変更しないでください。クリーンアップ コードを 'Dispose(bool disposing)' メソッドに記述します
+		//     Dispose(disposing: false);
+		// }
+
+		public void Dispose()
+		{
+			// このコードを変更しないでください。クリーンアップ コードを 'Dispose(bool disposing)' メソッドに記述します
+			Dispose(disposing: true);
+			GC.SuppressFinalize(this);
 		}
 	}
 }
