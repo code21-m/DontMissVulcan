@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace DontMissVulcan.ViewModels.Recruitment
 {
@@ -102,7 +103,7 @@ namespace DontMissVulcan.ViewModels.Recruitment
 		/// </summary>
 		/// <returns></returns>
 		[RelayCommand]
-		public void RecognizeTags()
+		public async Task RecognizeTags()
 		{
 			var hWnd = WindowSelector.SelectedWindowHwnd;
 			if (hWnd == IntPtr.Zero)
@@ -116,13 +117,14 @@ namespace DontMissVulcan.ViewModels.Recruitment
 			try
 			{
 				using var bitmap = ScreenCapturer.CaptureWindow(hWnd);
-				texts = _ocrTextRecognizer.Recognize(bitmap);
+				texts = await _ocrTextRecognizer.RecognizeAsync(bitmap);
 			}
 			catch
 			{
 				// キャプチャに失敗した場合はなにもしない。
 				return;
 			}
+
 			var tags = _tagResolver.ResolveTags(texts);
 			TagSelector.SetTags(tags);
 		}

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DontMissVulcan.Models.Platform
 {
@@ -27,24 +28,27 @@ namespace DontMissVulcan.Models.Platform
 		/// </summary>
 		/// <param name="Bitmap">画像</param>
 		/// <returns>行ごとの認識されたテキスト</returns>
-		public IReadOnlyList<string> Recognize(Bitmap bitmap)
+		public Task<IReadOnlyList<string>> RecognizeAsync(Bitmap bitmap)
 		{
-			using var src = BitmapConverter.ToMat(bitmap);
-
-			PaddleOcrResult result;
-			// PaddleOcrは1チャンネルもしくは3チャンネルの画像に対応しているので、4チャンネルの場合は3チャンネルに変換する。
-			if (src.Channels() == 4)
+			return Task.Run(() =>
 			{
-				using var src3 = new Mat();
-				Cv2.CvtColor(src, src3, ColorConversionCodes.BGRA2BGR);
-				result = _paddleOcrAll.Run(src3);
-			}
-			else
-			{
-				result = _paddleOcrAll.Run(src);
-			}
+				using var src = BitmapConverter.ToMat(bitmap);
 
-			return [.. result.Regions.Select(region => region.Text)];
+				PaddleOcrResult result;
+				// PaddleOcrは1チャンネルもしくは3チャンネルの画像に対応しているので、4チャンネルの場合は3チャンネルに変換する。
+				if (src.Channels() == 4)
+				{
+					using var src3 = new Mat();
+					Cv2.CvtColor(src, src3, ColorConversionCodes.BGRA2BGR);
+					result = _paddleOcrAll.Run(src3);
+				}
+				else
+				{
+					result = _paddleOcrAll.Run(src);
+				}
+
+				return (IReadOnlyList<string>)[.. result.Regions.Select(region => region.Text)];
+			});
 		}
 
 		protected virtual void Dispose(bool disposing)
