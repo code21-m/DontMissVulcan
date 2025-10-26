@@ -11,7 +11,7 @@ using System.Linq;
 namespace DontMissVulcan.Models.Platform
 {
 	/// <summary>
-	/// Windows標準のOCRでテキスト認識を行います。
+	/// PaddleOCRでテキスト認識を行います。
 	/// </summary>
 	public partial class OcrTextRecognizer : IDisposable
 	{
