@@ -22,7 +22,6 @@ namespace DontMissVulcan
 		private readonly ServiceProvider _serviceProvider;
 
         /// <summary>
-        /// シングルトンオブジェクトを初期化します。
         /// ここに書かれたコードが最初に実行されます。
         /// </summary>
         public App()
