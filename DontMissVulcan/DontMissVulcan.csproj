@@ -92,10 +92,14 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
 
-  <!-- 直接設定 -->
+  <!-- 単一EXEファイルで公開するための設定 -->
   <PropertyGroup>
     <WindowsPackageType>None</WindowsPackageType>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+  </PropertyGroup>
+  
+  <!-- fieldキーワードを使うための設定（.NET 10リリース後は不要） -->
+  <PropertyGroup>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
 </Project>
