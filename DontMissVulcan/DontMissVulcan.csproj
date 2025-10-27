@@ -90,11 +90,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>none</DebugType>
   </PropertyGroup>
-
-  <!-- 脆弱性のために明示的にアップデートした推移的なパッケージ -->
-  <ItemGroup>
-    <PackageReference Include="System.Private.Uri" Version="4.3.2" />
-  </ItemGroup>
   
   <!-- fieldキーワードを使うための設定（.NET 10.0では不要なはず） -->
   <PropertyGroup>
