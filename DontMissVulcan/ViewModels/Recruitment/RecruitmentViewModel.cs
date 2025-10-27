@@ -124,7 +124,6 @@ namespace DontMissVulcan.ViewModels.Recruitment
 				// キャプチャに失敗した場合はなにもしない。
 				return;
 			}
-
 			var tags = _tagResolver.ResolveTags(texts);
 			TagSelector.SetTags(tags);
 		}

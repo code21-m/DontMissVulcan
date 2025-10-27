@@ -76,7 +76,7 @@ namespace DontMissVulcan.Models.Platform
 		/// 指定されたウィンドウがアクティブか判定します。
 		/// </summary>
 		/// <param name="hWnd">ウィンドウハンドル</param>
-		/// <returns>アクティブならTrue、そうでなければFalse</returns>
+		/// <returns>アクティブならばTrue、そうでなければFalse</returns>
 		public static bool IsForegroundWindow(IntPtr hWnd)
 		{
 			if (hWnd == HWND.Null)
