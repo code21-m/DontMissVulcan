@@ -59,11 +59,7 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 			var _tags = tags.ToHashSet().Take(maxSelectable);
 			foreach (var tagItem in TagItems)
 			{
-				var isSelected = _tags.Contains(tagItem.Tag);
-				if (tagItem.IsSelected != isSelected)
-				{
-					tagItem.IsSelected = isSelected;
-				}
+				tagItem.IsSelected = _tags.Contains(tagItem.Tag);
 			}
 		}
 
@@ -83,28 +79,20 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 		}
 
 		/// <summary>
-		/// タグ選択数が上限に達しているかによって選択ボタンの有効・無効を切り替えます。
+		/// タグ選択数が上限に達しているかどうかによって選択ボタンの有効・無効を切り替えます。
 		/// </summary>
 		private void UpdateSelectableStatus()
 		{
-			if (SelectedTags.Count < maxSelectable)
+			foreach (var tagItem in TagItems)
 			{
-				foreach (var tagItem in TagItems)
+				// タグ選択数が上限未満なら有効、そうでなければ選択されているもの以外無効
+				if (SelectedTags.Count < maxSelectable)
 				{
-					if (!tagItem.IsSelectable)
-					{
-						tagItem.IsSelectable = true;
-					}
+					tagItem.IsSelectable = true;
 				}
-			}
-			else
-			{
-				foreach (var tagItem in TagItems)
+				else
 				{
-					if (tagItem.IsSelectable != tagItem.IsSelected)
-					{
-						tagItem.IsSelectable = tagItem.IsSelected;
-					}
+					tagItem.IsSelectable = tagItem.IsSelected;
 				}
 			}
 		}
