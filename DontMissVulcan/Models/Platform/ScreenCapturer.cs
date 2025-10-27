@@ -30,7 +30,7 @@ namespace DontMissVulcan.Models.Platform
 			}
 			catch (Exception ex)
 			{
-				throw new InvalidOperationException($"ウィンドウ(hWnd={hWnd})のキャプチャに失敗しました。", ex);
+				throw new InvalidOperationException($"ウィンドウ（hWnd={hWnd}）のキャプチャに失敗しました。", ex);
 			}
 		}
 
