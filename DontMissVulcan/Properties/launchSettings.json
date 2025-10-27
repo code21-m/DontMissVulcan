@@ -1,5 +1,6 @@
 {
   "profiles": {
+    // EXEファイルで公開する場合はUnpackagedを使う。
     // "DontMissVulcan (Package)": {
     //  "commandName": "MsixPackage"
     //},
