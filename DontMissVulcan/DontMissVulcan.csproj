@@ -97,12 +97,12 @@
     <PackageReference Include="System.Private.Uri" Version="4.3.2" />
   </ItemGroup>
   
-  <!-- fieldキーワードを使うための設定（.NET 10リリース後は不要） -->
+  <!-- fieldキーワードを使うための設定（.NET 10.0では不要なはず） -->
   <PropertyGroup>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
-  <!-- 単一EXEファイルで公開するための設定 -->
+  <!-- EXEファイルで公開するための設定 -->
   <PropertyGroup>
     <WindowsPackageType>None</WindowsPackageType>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
