@@ -2,7 +2,7 @@
 アークナイツ公開求人ツール for Windows
 
 ## インストール
-[Releases](https://github.com/code21-m/DontMissVulcan/releases)からご自身のPCに合った最新版のEXEファイルをダウンロードし、任意の場所に配置してください。
+[Releases](https://github.com/code21-m/DontMissVulcan/releases)から最新版のEXEファイルをダウンロードし、任意の場所に配置してください。
 
 ## 使い方
 1. ダブルクリックして起動します。
