@@ -44,10 +44,10 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 				tagItem.PropertyChanged += TagItemSelectionChanged;
 				TagItems.Add(tagItem);
 			}
-			TagCategoryItems.Add(new("レア", TagItems.Where(tagItem => TagCategories.QualificationTags.Contains(tagItem.Tag))));
-			TagCategoryItems.Add(new("職業", TagItems.Where(tagItem => TagCategories.ClassTags.Contains(tagItem.Tag))));
-			TagCategoryItems.Add(new("ポジション", TagItems.Where(tagItem => TagCategories.PositionTags.Contains(tagItem.Tag))));
-			TagCategoryItems.Add(new("専門", TagItems.Where(tagItem => TagCategories.SpecializationTags.Contains(tagItem.Tag))));
+			TagCategoryItems.Add(new(TagItems.Where(tagItem => TagCategories.QualificationTags.Contains(tagItem.Tag))));
+			TagCategoryItems.Add(new(TagItems.Where(tagItem => TagCategories.ClassTags.Contains(tagItem.Tag))));
+			TagCategoryItems.Add(new(TagItems.Where(tagItem => TagCategories.PositionTags.Contains(tagItem.Tag))));
+			TagCategoryItems.Add(new(TagItems.Where(tagItem => TagCategories.SpecializationTags.Contains(tagItem.Tag))));
 		}
 
 		/// <summary>
