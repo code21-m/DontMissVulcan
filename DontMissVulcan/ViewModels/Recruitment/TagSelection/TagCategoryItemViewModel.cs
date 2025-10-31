@@ -8,12 +8,8 @@ namespace DontMissVulcan.ViewModels.Recruitment.TagSelection
 	/// </summary>
 	/// <param name="name">カテゴリ名</param>
 	/// <param name="tags">タグ</param>
-	internal class TagCategoryItemViewModel(string name, IEnumerable<TagItemViewModel> tags) 
+	internal class TagCategoryItemViewModel(IEnumerable<TagItemViewModel> tags) 
 	{
-		/// <summary>
-		/// カテゴリ名
-		/// </summary>
-		public string Name { get; } = name;
 
 		/// <summary>
 		/// タグ選択ボタンのViewModel

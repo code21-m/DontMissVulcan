@@ -16,7 +16,7 @@ namespace DontMissVulcan
 		{
 			InitializeComponent();
 
-			SetlWindowSize(1000, 1000);
+			SetlWindowSize(440, 600);
 		}
 
 		/// <summary>
