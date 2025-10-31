@@ -49,7 +49,7 @@ namespace DontMissVulcan.ViewModels.Recruitment
 		/// </summary>
 		private readonly MatchFinder _matchFinder;
 
-		private bool _disposed;
+		private bool disposedValue;
 
 		/// <summary>
 		/// 公開求人ツールの初期化を行います。
@@ -130,7 +130,7 @@ namespace DontMissVulcan.ViewModels.Recruitment
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (!_disposed)
+			if (!disposedValue)
 			{
 				if (disposing)
 				{
@@ -140,7 +140,7 @@ namespace DontMissVulcan.ViewModels.Recruitment
 
 				// TODO: アンマネージド リソース (アンマネージド オブジェクト) を解放し、ファイナライザーをオーバーライドします
 				// TODO: 大きなフィールドを null に設定します
-				_disposed = true;
+				disposedValue = true;
 			}
 		}
 

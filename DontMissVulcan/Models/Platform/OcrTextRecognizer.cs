@@ -21,7 +21,7 @@ namespace DontMissVulcan.Models.Platform
 		/// </summary>
 		private readonly PaddleOcrAll _paddleOcrAll = new(LocalFullModels.JapanV4, PaddleDevice.Mkldnn()) { AllowRotateDetection = false, Enable180Classification = false };
 
-		private bool _disposed;
+		private bool disposedValue;
 
 		/// <summary>
 		/// 指定された画像に対してテキスト認識を行います。
@@ -53,7 +53,7 @@ namespace DontMissVulcan.Models.Platform
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (!_disposed)
+			if (!disposedValue)
 			{
 				if (disposing)
 				{
@@ -63,7 +63,7 @@ namespace DontMissVulcan.Models.Platform
 
 				// TODO: アンマネージド リソース (アンマネージド オブジェクト) を解放し、ファイナライザーをオーバーライドします
 				// TODO: 大きなフィールドを null に設定します
-				_disposed = true;
+				disposedValue = true;
 			}
 		}
 
