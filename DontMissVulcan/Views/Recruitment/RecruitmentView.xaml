@@ -37,41 +37,43 @@
 
             <!-- タグ選択 -->
             <Grid Margin="0,0,0,5">
-                <Button Width="70" Height="30" Margin="0,0,0,5" FontSize="{StaticResource SmallFontSize}"
-                    Content="自動選択"
-                    Command="{x:Bind ViewModel.RecognizeTagsCommand}" />
+                <StackPanel>
+                    <Button Width="70" Height="30" Margin="0,0,0,5" FontSize="{StaticResource SmallFontSize}"
+                        Content="自動選択"
+                        Command="{x:Bind ViewModel.RecognizeTagsCommand}" />
 
-                <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.TagCategoryItems}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="tagselection:TagCategoryItemViewModel">
-                            <StackPanel>
-                                <GridView
-                                    SelectionMode="None"
-                                    IsItemClickEnabled="False"
-                                    ItemsSource="{x:Bind TagItems}">
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.TagSelector.TagCategoryItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="tagselection:TagCategoryItemViewModel">
+                                <StackPanel>
+                                    <GridView
+                                        SelectionMode="None"
+                                        IsItemClickEnabled="False"
+                                        ItemsSource="{x:Bind TagItems}">
 
-                                    <GridView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <ItemsWrapGrid
-                                                Orientation="Horizontal"
-                                                ItemWidth="85"
-                                                ItemHeight="41" />
-                                        </ItemsPanelTemplate>
-                                    </GridView.ItemsPanel>
+                                        <GridView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <ItemsWrapGrid
+                                                    Orientation="Horizontal"
+                                                    ItemWidth="85"
+                                                    ItemHeight="41" />
+                                            </ItemsPanelTemplate>
+                                        </GridView.ItemsPanel>
 
-                                    <GridView.ItemTemplate>
-                                        <DataTemplate x:DataType="tagselection:TagItemViewModel">
-                                            <ToggleButton Width="80" Height="30" FontSize="{StaticResource SmallFontSize}"
-                                                Content="{x:Bind DisplayName}"
-                                                IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
-                                                IsEnabled="{x:Bind IsSelectable, Mode=OneWay}" />
-                                        </DataTemplate>
-                                    </GridView.ItemTemplate>
-                                </GridView>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                                        <GridView.ItemTemplate>
+                                            <DataTemplate x:DataType="tagselection:TagItemViewModel">
+                                                <ToggleButton Width="80" Height="30" FontSize="{StaticResource SmallFontSize}"
+                                                    Content="{x:Bind DisplayName}"
+                                                    IsChecked="{x:Bind IsSelected, Mode=TwoWay}"
+                                                    IsEnabled="{x:Bind IsSelectable, Mode=OneWay}" />
+                                            </DataTemplate>
+                                        </GridView.ItemTemplate>
+                                    </GridView>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
             </Grid>
 
             <!-- マッチング結果 -->
